@@ -68,7 +68,7 @@ func setup(auto_start = true):
 
 func on_invoke(invocation):
 	var spawn_point = level.cursor.global_position
-	var mark = mark_scene.instantiate(PackedScene.GEN_EDIT_STATE_INSTANCE)
+	var mark = mark_scene.instantiate()
 	invocations_group.add_child(mark)
 	mark.global_position = spawn_point
 	if not level.circle.circle_complete():

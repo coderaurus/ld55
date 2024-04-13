@@ -21,6 +21,8 @@ func _process(delta):
 		symbol_invoked.emit("summoning_w")
 	elif Input.is_action_just_pressed("summoning_right"):
 		symbol_invoked.emit("summoning_right")
+	elif Input.is_action_just_pressed("summoning_d"):
+		symbol_invoked.emit("summoning_d")
 	elif Input.is_action_just_pressed("summoning_down"):
 		symbol_invoked.emit("summoning_down")
 	elif Input.is_action_just_pressed("summoning_s"):

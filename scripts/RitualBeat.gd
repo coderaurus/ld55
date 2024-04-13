@@ -14,6 +14,7 @@ var invoked = false
 
 
 func setup(beat, requirement):
+	print("Setting up %s %s" % [beat, requirement])
 	beat_at = beat
 	
 	if requirement == "summoning_right" or requirement == "summoning_d":
@@ -23,8 +24,8 @@ func setup(beat, requirement):
 	elif requirement == "summoning_left" or requirement == "summoning_a":
 			rotation = deg_to_rad(270)
 	
-	if requirement.contains("_w") or requirement.contains("_d") or \
-	requirement.contains("_s") or requirement.contains("_a"):
+	if requirement == "summoning_w" or requirement == "summoning_d" or \
+	requirement == "summoning_s" or requirement == "summoning_a":
 		self_modulate = Color.REBECCA_PURPLE
 	
 	required_invocation = requirement
@@ -39,5 +40,5 @@ func on_invoked():
 	tween.tween_property(self, "scale", scale * 1.25, 1.0).set_trans(Tween.TRANS_ELASTIC)
 
 func requires(invocation):
-	print("%s => %s" % [invocation, required_invocation])
+	print("Incoming(%s) => Has(%s)" % [invocation, required_invocation])
 	return required_invocation == invocation or required_invocation == "any"
