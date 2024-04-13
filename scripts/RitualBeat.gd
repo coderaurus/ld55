@@ -12,8 +12,18 @@ var active = true
 var reached = false
 var invoked = false
 
-func setup(beat):
+
+func setup(beat, requirement):
 	beat_at = beat
+	
+	if requirement == "summoning_right" or requirement == "summoning_d":
+			rotation = deg_to_rad(90)
+	elif requirement == "summoning_down" or requirement == "summoning_s":
+			rotation = deg_to_rad(180)
+	elif requirement == "summoning_left" or requirement == "summoning_a":
+			rotation = deg_to_rad(270)
+	
+	required_invocation = requirement
 
 func fizzle():
 	var tween = get_tree().create_tween()
@@ -23,3 +33,7 @@ func on_invoked():
 	invoked = true
 	var tween = get_tree().create_tween()
 	tween.tween_property(self, "scale", scale * 1.25, 1.0).set_trans(Tween.TRANS_ELASTIC)
+
+func requires(invocation):
+	print("%s => %s" % [invocation, required_invocation])
+	return required_invocation == invocation or required_invocation == "any"

@@ -41,11 +41,13 @@ var titan_defeated = false
 
 signal beat_hit
 signal beat_miss
+signal beat_wrong
 
 func _ready():
 	if not beat_hit.is_connected($UI.on_beat_hit):
 		beat_hit.connect($UI.on_beat_hit)
 		beat_miss.connect($UI.on_beat_miss)
+		beat_wrong.connect($UI.on_beat_wrong)
 	
 	level_data = _generate_level_data()
 	setup(false)
@@ -72,7 +74,7 @@ func on_invoke(invocation):
 	if not level.circle.circle_complete():
 		var next:RitualBeat = level.circle.get_next_invocation()
 		var distance = next.global_position.distance_to(spawn_point)
-		if distance <= next.invocation_grace_range:
+		if not next.invoked and distance <= next.invocation_grace_range and next.requires(invocation):
 			print("HIT (%s/%s)" % [distance, next.invocation_grace_range])
 			next.on_invoked()
 			var accuracy = 1 - distance / next.invocation_grace_range
@@ -81,7 +83,11 @@ func on_invoke(invocation):
 			if accuracy >= 0.75:
 				circle_brilliants += 1
 			beat_hit.emit(accuracy, level.circle.global_position + Vector2.LEFT * 32)
-		else:
+		if not next.invoked and distance <= next.invocation_grace_range and not next.requires(invocation):
+			circle_misses += 1
+			beat_wrong.emit(0, level.circle.global_position + Vector2.LEFT * 32)
+			print("MISS (%s/%s)" % [distance, next.invocation_grace_range])
+		elif not next.invoked:
 			circle_misses += 1
 			var off_shoot = distance - next.invocation_grace_range
 			beat_miss.emit(off_shoot, level.circle.global_position + Vector2.LEFT * 32)

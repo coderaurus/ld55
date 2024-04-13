@@ -13,6 +13,9 @@ var circle
 
 var parent: Main
 
+var invocation_inputs = ["summoning_up", "summoning_right", "summoning_down","summoning_left"]
+var invocation_inputs_secondary = ["summoning_w", "summoning_d", "summoning_s","summoning_a"]
+
 func _ready():
 	parent = get_parent()
 
@@ -67,9 +70,11 @@ func _generate_invocation_beats():
 		beat = clampi(beat, 10, 350)
 		invocations_at.append(beat)
 		
+		var selected_invocation = wrapi(randi_range(0, 100) + randi_range(0, 100), 0, 3)
+		
 		var beat_scene:RitualBeat = parent.ritual_beat_scene.instantiate()
 		beat_scene.name = "RitualBeat%s" % (i+1)
-		beat_scene.setup(beat)
+		beat_scene.setup(beat, invocation_inputs[selected_invocation])
 		
 		circle.add_child(beat_scene)
 

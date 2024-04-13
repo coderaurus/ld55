@@ -50,6 +50,20 @@ func on_beat_miss(distance, pos: Vector2):
 	text_scene.position = pos
 	text_scene.pop(message, text_color)
 
+func on_beat_wrong(distance, pos: Vector2):
+	print("Wrong at %s" % pos)
+	var message = "Wrong"
+	var text_color = Color.DARK_RED
+	
+	var text_scene: BeatHitText = beat_hit_text_scene.instantiate()
+	$Beats.add_child(text_scene)
+	
+	#text_scene.global_position = Vector2(690, 360)
+	pos.x = randi_range(pos.x - 32, pos.x + 32)
+	pos.y = randi_range(pos.y - 32, pos.y + 32)
+	text_scene.position = pos
+	text_scene.pop(message, text_color)
+
 func on_level_complete(hits, brilliants, followers, fizzles, total_followers, days_left):
 	$Progress/Days.text = "%s days left" % days_left
 	$Progress/Follower.text = "%s followers" % total_followers
@@ -101,7 +115,7 @@ func _on_replay_pressed():
 	parent.reset()
 	$Summoning.hide()
 
-func pop_beat_message(message):
+func pop_beat_message(message, c = Color.WHITE):
 	var pos = Vector2(690, 360) + Vector2.LEFT * 96
 	var text_scene: BeatHitText = beat_hit_text_scene.instantiate()
 	$Beats.add_child(text_scene)
@@ -109,7 +123,7 @@ func pop_beat_message(message):
 	pos.x = randi_range(pos.x - 32, pos.x + 32)
 	pos.y = randi_range(pos.y - 32, pos.y + 32)
 	text_scene.position = pos
-	text_scene.pop(message)
+	text_scene.pop(message, c)
 
 func start_count_down():
 	await get_tree().create_timer(0.5).timeout
