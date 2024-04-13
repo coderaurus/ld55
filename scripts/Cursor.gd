@@ -25,7 +25,7 @@ func _process(delta):
 	if not moving:
 		return
 	
-	print("Moving towards: %s" % (points[current_point]))
+	#print("Moving towards: %s" % (points[current_point]))
 	position = position.move_toward(points[current_point], speed * delta)
 	
 	if position.distance_to(points[current_point]) <= 2:

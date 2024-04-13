@@ -12,7 +12,16 @@ class_name Main
 @export var fizzle_score = 3
 @export var miss_score = 0.5
 
+@export_category("Titan")
+@export var base_power_per_level = 30
+@export var multiplier_per_level = 1.2
+
 var level_data: Array[Resource] = []
+
+
+var speed_modifier = 1
+var score_modifier = 1
+
 
 var current_level = 0
 var invocation_beats
@@ -23,18 +32,36 @@ var circle_hits = 0
 var circle_brilliants = 0
 
 var followers = 0
-var days = 10
+var days_left = 10
+
+var power_per_follower = 10
+var summoning_power = 0
+var titan_total_power = 0
+var titan_defeated = false
 
 signal beat_hit
 signal beat_miss
 
 func _ready():
+	if not beat_hit.is_connected($UI.on_beat_hit):
+		beat_hit.connect($UI.on_beat_hit)
+		beat_miss.connect($UI.on_beat_miss)
+	
 	level_data = _generate_level_data()
+	setup()
+
+func setup():
+	current_level = 0
+	days_left = level_data.size()
+	var power_multiplier = multiplier_per_level
+	titan_total_power = 0
+	for i in days_left:
+		var power = base_power_per_level * power_multiplier
+		power_multiplier *= multiplier_per_level
+		titan_total_power += power
+	print("Titan power at (multiplier %s): %s" % [power_multiplier, titan_total_power])
 	
-	beat_hit.connect($UI.on_beat_hit)
-	beat_miss.connect($UI.on_beat_miss)
 	level.load_data(level_data[current_level])
-	
 
 func on_invoke(invocation):
 	var spawn_point = level.cursor.global_position
@@ -64,10 +91,10 @@ func on_circle_ready(path, global_origin):
 	pass
 	
 func on_invocation_circle_complete():
-	var scores = (circle_hits * hit_score) + (circle_brilliants * brilliant_score)
+	var scores = (circle_hits * hit_score * score_modifier) + (circle_brilliants * brilliant_score * score_modifier)
 	scores -= roundi(level.circle.next_invocation - circle_misses * miss_score) # spammed misses
 	scores -= roundi(circle_fizzles * fizzle_score) # fizzles
-	var new_followers = scores/ 100
+	var new_followers = scores / 100
 	new_followers = roundi(new_followers)
 	followers += new_followers
 	
@@ -76,11 +103,11 @@ func on_invocation_circle_complete():
 	if level.is_level_complete():
 		current_level += 1
 		print("Level complete")
-		days -= 1
-		$UI.on_level_complete(circle_hits, circle_brilliants, new_followers, circle_fizzles, followers, days)
-		await get_tree().create_timer(2.0).timeout
-		if current_level < level_data.size():
-			level.load_data(level_data[current_level])
+		days_left -= 1
+		$UI.on_level_complete(circle_hits, circle_brilliants, new_followers, circle_fizzles, followers, days_left)
+		#await get_tree().create_timer(2.0).timeout
+		#if current_level < level_data.size():
+			#level.load_data(level_data[current_level])
 	else:
 		level.load_next_circle()
 
@@ -98,20 +125,56 @@ func on_level_ready(lvl):
 	level.load_data(level_data[current_level])
 
 func _load_next_level():
-	pass
+	level.load_data(level_data[current_level])
 
+func next_level(modifier = "normal"):
+	var skip_day = false
+	var summoning = false
+	var new_followers = 0
+	match modifier:
+		"prowess":
+			score_modifier += 0.1
+			speed_modifier += 0.1
+		"focus":
+			score_modifier -= 0.1
+			speed_modifier -= 0.1
+		"teach":
+			new_followers = clampi(followers * 1.5, 1, 999999) - followers
+			followers = clampi(followers * 1.5, 1, 999999)
+			skip_day = true
+		"summon":
+			summoning = true
+	
+	$UI.hide_down_time()
+		
+	if summoning:
+		print("Summoing with %s followers" % followers)
+		_determine_outcome()
+		$UI.show_summoning()
+	elif not skip_day:
+		_load_next_level()
+	else:
+		$UI.show_skipped_day()
+
+func _determine_outcome():
+	summoning_power = followers * power_per_follower
+	titan_defeated = summoning_power >= titan_total_power
+	print("Summoning: %s Titan: %s" % [summoning_power, titan_total_power])
+
+func reset():
+	setup()
 
 func _generate_level_data():
 	var data: Array[Resource] = [
 		LevelData.new(
 			[
 				InvocationCircleData.new(),
-				InvocationCircleData.new(4, 200),
+				#InvocationCircleData.new(4, 200),
 			]
 		),
 		LevelData.new(
 			[
-				InvocationCircleData.new(5),
+				InvocationCircleData.new(5, 150),
 				InvocationCircleData.new(8, 200),
 			]
 		)

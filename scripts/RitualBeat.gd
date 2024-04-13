@@ -4,7 +4,7 @@ class_name RitualBeat
 var beat_at = 0 # 0 - 360
 var required_invocation = ""
 # for missing
-var invocation_grace_range = 10 
+var invocation_grace_range = 14 
 # 0 - miss, 1-10 = % distance within grace_range (10 = on point)
 var invocation_grade = 0
 

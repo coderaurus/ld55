@@ -2,6 +2,16 @@ extends CanvasLayer
 
 @onready var beat_hit_text_scene = preload("res://scene/ui/beat_hit_text.tscn")
 
+var parent: Main
+
+func _ready():
+	parent = get_parent()
+	
+	$Downtime/Options/Normal.pressed.connect(parent.next_level.bind("normal"))
+	$Downtime/Options/Prowess.pressed.connect(parent.next_level.bind("prowess"))
+	$Downtime/Options/Focus.pressed.connect(parent.next_level.bind("focus"))
+	$Downtime/Options/Teach.pressed.connect(parent.next_level.bind("teach"))
+	$Downtime/Options/Summon.pressed.connect(parent.next_level.bind("summon"))
 
 func on_beat_hit(accuracy, pos):
 	print("Hit at %s" % pos)
@@ -35,8 +45,8 @@ func on_beat_miss(distance, pos: Vector2):
 	text_scene.position = pos
 	text_scene.pop(message, text_color)
 
-func on_level_complete(hits, brilliants, followers, fizzles, total_followers, days):
-	$Progress/Days.text = "%s days left" % days
+func on_level_complete(hits, brilliants, followers, fizzles, total_followers, days_left):
+	$Progress/Days.text = "%s days left" % days_left
 	$Progress/Follower.text = "%s followers" % total_followers
 	
 	$Results/Hits.text = "Total hits: %s" % hits
@@ -45,3 +55,34 @@ func on_level_complete(hits, brilliants, followers, fizzles, total_followers, da
 	$Results/Followers.text = "No new followers..."
 	if followers > 0:
 		$Results/Followers.text = "+%s followers" % followers
+	
+	if days_left == 0:
+		$Downtime/Options/Normal.disabled = true
+		$Downtime/Options/Prowess.disabled = true
+		$Downtime/Options/Focus.disabled = true
+		$Downtime/Options/Teach.disabled = true
+		$Downtime/Options/Blank.visible = false
+	else:
+		$Downtime/Options/Normal.disabled = false
+		$Downtime/Options/Prowess.disabled = false
+		$Downtime/Options/Focus.disabled = false
+		$Downtime/Options/Teach.disabled = false
+		$Downtime/Options/Blank.visible = true
+	
+	$Downtime.visible = true
+
+func hide_down_time():
+	$Downtime.hide()
+
+func show_summoning():
+	$Summoning.show()
+
+func show_skip_day():
+	$SkipDay.show()
+
+func _on_continue_pressed():
+	$SkipDay.hide()
+
+func _on_replay_pressed():
+	parent.reset()
+	$Summoning.hide()

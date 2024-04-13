@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://scripts/Controls.gd" id="2_mwe18"]
 [ext_resource type="Script" path="res://scripts/Level.gd" id="3_jc1qa"]
 [ext_resource type="Script" path="res://scripts/ui/UI.gd" id="6_4l2vd"]
-[ext_resource type="PackedScene" uid="uid://dvo40e2sops1r" path="res://scene/ui/beat_hit_text.tscn" id="7_28x6q"]
+[ext_resource type="Texture2D" uid="uid://xcgu0djwiqru" path="res://icon.svg" id="6_w7jqp"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_kl245")
@@ -19,8 +19,6 @@ script = ExtResource("3_jc1qa")
 
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource("6_4l2vd")
-
-[node name="BeatHitText" parent="UI" instance=ExtResource("7_28x6q")]
 
 [node name="Results" type="VBoxContainer" parent="UI"]
 offset_left = 30.0
@@ -87,3 +85,152 @@ offset_bottom = 77.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
 text = "Followers: 5"
+
+[node name="Downtime" type="Panel" parent="UI"]
+visible = false
+self_modulate = Color(0, 0, 0, 1)
+offset_left = 397.0
+offset_top = 151.0
+offset_right = 852.0
+offset_bottom = 680.0
+
+[node name="Header" type="Label" parent="UI/Downtime"]
+layout_mode = 2
+offset_left = 90.0
+offset_top = 23.0
+offset_right = 361.0
+offset_bottom = 58.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Planning phase"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="Text" type="Label" parent="UI/Downtime"]
+layout_mode = 2
+offset_left = 38.0
+offset_top = 92.0
+offset_right = 415.0
+offset_bottom = 127.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "What are you doing tomorrow?"
+horizontal_alignment = 1
+
+[node name="Options" type="VBoxContainer" parent="UI/Downtime"]
+layout_mode = 0
+offset_left = 97.0
+offset_top = 165.0
+offset_right = 361.0
+offset_bottom = 479.0
+
+[node name="Normal" type="Button" parent="UI/Downtime/Options"]
+self_modulate = Color(0.254902, 0.815686, 0.741176, 1)
+layout_mode = 2
+text = "Follow the creed
+(No changes)"
+
+[node name="Prowess" type="Button" parent="UI/Downtime/Options"]
+self_modulate = Color(0.254902, 0.815686, 0.741176, 1)
+layout_mode = 2
+text = "Show off your prowess
+(+10% speed, +10% follower gain)"
+
+[node name="Focus" type="Button" parent="UI/Downtime/Options"]
+self_modulate = Color(0.254902, 0.815686, 0.741176, 1)
+layout_mode = 2
+text = "Sharpen your focus
+(-10% speed, -10% follower gain)"
+
+[node name="Teach" type="Button" parent="UI/Downtime/Options"]
+self_modulate = Color(0.254902, 0.815686, 0.741176, 1)
+layout_mode = 2
+text = "Teach
+(Skip ritual, gain 1.5x followers)"
+
+[node name="Blank" type="Control" parent="UI/Downtime/Options"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+
+[node name="Summon" type="Button" parent="UI/Downtime/Options"]
+self_modulate = Color(1, 0.12549, 0.0352941, 1)
+layout_mode = 2
+text = "It's time
+(SUMMON)"
+
+[node name="SkipDay" type="Panel" parent="UI"]
+visible = false
+offset_left = 372.0
+offset_top = 308.0
+offset_right = 940.0
+offset_bottom = 512.0
+
+[node name="Text2" type="Label" parent="UI/SkipDay"]
+layout_mode = 2
+offset_left = 64.0
+offset_top = 24.0
+offset_right = 494.0
+offset_bottom = 97.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "You spent your day teaching others
+gaining X new followers."
+horizontal_alignment = 1
+
+[node name="Continue" type="Button" parent="UI/SkipDay"]
+layout_mode = 0
+offset_left = 92.0
+offset_top = 128.0
+offset_right = 463.0
+offset_bottom = 190.0
+text = "Continue"
+
+[node name="Summoning" type="Panel" parent="UI"]
+visible = false
+offset_left = 311.0
+offset_top = 83.0
+offset_right = 968.0
+offset_bottom = 711.0
+
+[node name="Text" type="Label" parent="UI/Summoning"]
+layout_mode = 2
+offset_left = 8.0
+offset_top = 367.0
+offset_right = 650.0
+offset_bottom = 440.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Together with your followers, you summon the mighty FISH."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Outcome" type="Label" parent="UI/Summoning"]
+layout_mode = 2
+offset_left = 8.0
+offset_top = 448.0
+offset_right = 650.0
+offset_bottom = 521.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Regardless of your valiant efforts, the TITAN owerpowered your summon. You lose."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Continue" type="Button" parent="UI/Summoning"]
+layout_mode = 0
+offset_left = 146.0
+offset_top = 540.0
+offset_right = 517.0
+offset_bottom = 602.0
+text = "Replay"
+
+[node name="TextureRect" type="TextureRect" parent="UI/Summoning"]
+layout_mode = 0
+offset_left = 256.0
+offset_top = 166.0
+offset_right = 384.0
+offset_bottom = 294.0
+texture = ExtResource("6_w7jqp")
+
+[connection signal="pressed" from="UI/SkipDay/Continue" to="UI" method="_on_continue_pressed"]
+[connection signal="pressed" from="UI/Summoning/Continue" to="UI" method="_on_replay_pressed"]
