@@ -155,7 +155,7 @@ func next_level(modifier = "normal"):
 	if summoning:
 		print("Summoing with %s followers" % followers)
 		_determine_outcome()
-		$UI.show_summoning()
+		$UI.show_summoning(titan_defeated)
 	elif not skip_day:
 		_load_next_level()
 	else:

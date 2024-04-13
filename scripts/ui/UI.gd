@@ -79,7 +79,13 @@ func on_level_complete(hits, brilliants, followers, fizzles, total_followers, da
 func hide_down_time():
 	$Downtime.hide()
 
-func show_summoning():
+func show_summoning(did_win = false):
+	var lose_msg = "Regardless of your valiant efforts, the TITAN owerpowered your summon. You lose."
+	var win_msg = "The mighty beast FISH flushed TITAN down the volcano! You win!"
+	$Summoning/Outcome.text = lose_msg
+	if did_win:
+		$Summoning/Outcome.text = win_msg
+	
 	$Summoning.show()
 
 func show_skipped_day(new_followers):
