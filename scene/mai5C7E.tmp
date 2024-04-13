@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://xcgu0djwiqru" path="res://icon.svg" id="3_8hqjm"]
 [ext_resource type="Script" path="res://scripts/Cursor.gd" id="4_65wv7"]
 [ext_resource type="Script" path="res://scripts/ui/UI.gd" id="6_4l2vd"]
-[ext_resource type="PackedScene" uid="uid://dvo40e2sops1r" path="res://scene/ui/beat_hit_text.tscn" id="7_28x6q"]
+[ext_resource type="Script" path="res://scripts/ui/BeatHitText.gd" id="7_w3xl2"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_kl245")
@@ -26,7 +26,23 @@ scale = Vector2(0.25, 0.25)
 texture = ExtResource("3_8hqjm")
 script = ExtResource("4_65wv7")
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 script = ExtResource("6_4l2vd")
 
-[node name="BeatHitText" parent="UI" instance=ExtResource("7_28x6q")]
+[node name="BeatHitText" type="Label" parent="CanvasLayer"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -38.0
+offset_top = -22.5
+offset_right = 38.0
+offset_bottom = 22.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 32
+text = "MISS"
+script = ExtResource("7_w3xl2")

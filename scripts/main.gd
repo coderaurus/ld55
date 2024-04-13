@@ -9,7 +9,13 @@ class_name Main
 
 var invocation_beats
 
+signal beat_hit
+signal beat_miss
+
 func _ready():
+	beat_hit.connect($UI.on_beat_hit)
+	beat_miss.connect($UI.on_beat_miss)
+	
 	cursor.path_complete.connect(on_invocation_circle_complete)
 	circle.circle_ready.connect(on_circle_ready)
 	_generate_invocation_beats()
@@ -26,7 +32,11 @@ func on_invoke(invocation):
 		if distance <= next.invocation_grace_range:
 			print("HIT (%s/%s)" % [distance, next.invocation_grace_range])
 			next.on_invoked()
+			var accuracy = 1 - distance / next.invocation_grace_range
+			beat_hit.emit(accuracy, circle.global_position + Vector2.LEFT * 32)
 		else:
+			var off_shoot = distance - next.invocation_grace_range
+			beat_miss.emit(off_shoot, circle.global_position + Vector2.LEFT * 32)
 			print("MISS (%s/%s)" % [distance, next.invocation_grace_range])
 
 func on_circle_ready(path, global_origin):

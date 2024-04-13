@@ -19,7 +19,7 @@ func setup(p, origin):
 
 func _process(delta):
 	if moving and current_point == points.size():
-		current_point = 0
+		moving = false
 		path_complete.emit()
 	
 	if not moving:
