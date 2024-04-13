@@ -34,3 +34,14 @@ func on_beat_miss(distance, pos: Vector2):
 	pos.y = randi_range(pos.y - 32, pos.y + 32)
 	text_scene.position = pos
 	text_scene.pop(message, text_color)
+
+func on_level_complete(hits, brilliants, followers, fizzles, total_followers, days):
+	$Progress/Days.text = "%s days left" % days
+	$Progress/Follower.text = "%s followers" % total_followers
+	
+	$Results/Hits.text = "Total hits: %s" % hits
+	$Results/Brilliants.text = "Brilliant hits: %s" % brilliants
+	$Results/Fizzles.text = "Fizzles: %s" % fizzles
+	$Results/Followers.text = "No new followers..."
+	if followers > 0:
+		$Results/Followers.text = "+%s followers" % followers

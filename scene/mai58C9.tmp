@@ -1,19 +1,44 @@
-[gd_scene load_steps=6 format=3 uid="uid://dvs30uxjgla0m"]
+[gd_scene load_steps=12 format=3 uid="uid://dvs30uxjgla0m"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_kl245"]
+[ext_resource type="Script" path="res://scripts/Circle.gd" id="2_1lb8w"]
 [ext_resource type="Script" path="res://scripts/Controls.gd" id="2_mwe18"]
+[ext_resource type="Texture2D" uid="uid://xcgu0djwiqru" path="res://icon.svg" id="3_8hqjm"]
 [ext_resource type="Script" path="res://scripts/Level.gd" id="3_jc1qa"]
+[ext_resource type="Script" path="res://data/level_data.gd" id="3_wjoy5"]
+[ext_resource type="Script" path="res://scripts/Cursor.gd" id="4_65wv7"]
 [ext_resource type="Script" path="res://scripts/ui/UI.gd" id="6_4l2vd"]
 [ext_resource type="PackedScene" uid="uid://dvo40e2sops1r" path="res://scene/ui/beat_hit_text.tscn" id="7_28x6q"]
 
+[sub_resource type="Resource" id="Resource_2oy8r"]
+script = ExtResource("3_wjoy5")
+circles = Array[Resource("res://data/circle_data.gd")]([])
+circles_active = 1
+
+[sub_resource type="Resource" id="Resource_1ol11"]
+script = ExtResource("3_wjoy5")
+circles = Array[Resource("res://data/circle_data.gd")]([])
+circles_active = 1
+
 [node name="Main" type="Node2D"]
 script = ExtResource("1_kl245")
+level_data = Array[Resource]([SubResource("Resource_2oy8r"), SubResource("Resource_1ol11")])
 
 [node name="Controls" type="Node2D" parent="."]
 script = ExtResource("2_mwe18")
 
 [node name="Level" type="Node2D" parent="."]
 script = ExtResource("3_jc1qa")
+
+[node name="Circle" type="Line2D" parent="Level"]
+position = Vector2(640, 360)
+script = ExtResource("2_1lb8w")
+
+[node name="Cursor" type="Sprite2D" parent="Level/Circle"]
+position = Vector2(-188, -57)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("3_8hqjm")
+script = ExtResource("4_65wv7")
 
 [node name="Invocations" type="Node2D" parent="."]
 

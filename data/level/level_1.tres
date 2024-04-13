@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=5 format=3 uid="uid://c23kus5spqjr2"]
+
+[ext_resource type="Script" path="res://data/circle_data.gd" id="1_0ili8"]
+[ext_resource type="Script" path="res://data/level_data.gd" id="1_olew2"]
+
+[sub_resource type="Resource" id="Resource_ypddp"]
+script = ExtResource("1_0ili8")
+invocations = 0
+cursor_speed = 100
+uses_arrows = true
+
+[sub_resource type="Resource" id="Resource_cwco8"]
+script = ExtResource("1_0ili8")
+invocations = 5
+cursor_speed = 120
+uses_arrows = true
+
+[resource]
+script = ExtResource("1_olew2")
+circles = Array[Resource]([SubResource("Resource_ypddp"), SubResource("Resource_cwco8")])
+circles_active = 1

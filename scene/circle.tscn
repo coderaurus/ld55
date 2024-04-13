@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://duiwyq57tfpd6"]
+
+[ext_resource type="Script" path="res://scripts/Circle.gd" id="1_j60x5"]
+[ext_resource type="Texture2D" uid="uid://xcgu0djwiqru" path="res://icon.svg" id="2_kv32j"]
+[ext_resource type="Script" path="res://scripts/Cursor.gd" id="3_aguat"]
+
+[node name="Circle" type="Line2D"]
+position = Vector2(640, 360)
+script = ExtResource("1_j60x5")
+
+[node name="Cursor" type="Sprite2D" parent="."]
+position = Vector2(-188, -57)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_kv32j")
+script = ExtResource("3_aguat")
