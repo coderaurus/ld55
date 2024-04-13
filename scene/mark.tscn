@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cao4pjdc0nt56"]
+
+[ext_resource type="Texture2D" uid="uid://xcgu0djwiqru" path="res://icon.svg" id="1_dpt53"]
+[ext_resource type="Script" path="res://scripts/Mark.gd" id="2_vjntn"]
+
+[node name="Mark" type="Sprite2D"]
+position = Vector2(452, 303)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_dpt53")
+script = ExtResource("2_vjntn")

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkmm384fyo3j8"]
+
+[ext_resource type="Texture2D" uid="uid://xcgu0djwiqru" path="res://icon.svg" id="1_x5wqb"]
+[ext_resource type="Script" path="res://scripts/RitualBeat.gd" id="2_baxx5"]
+
+[node name="RitualBeat" type="Sprite2D"]
+self_modulate = Color(0.996078, 0.835294, 0, 1)
+rotation = 0.785398
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_x5wqb")
+script = ExtResource("2_baxx5")

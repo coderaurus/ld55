@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dvs30uxjgla0m"]
+[gd_scene load_steps=8 format=3 uid="uid://dvs30uxjgla0m"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_kl245"]
 [ext_resource type="Script" path="res://scripts/Circle.gd" id="2_1lb8w"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://xcgu0djwiqru" path="res://icon.svg" id="3_8hqjm"]
 [ext_resource type="Script" path="res://scripts/Cursor.gd" id="4_65wv7"]
 [ext_resource type="PackedScene" uid="uid://cao4pjdc0nt56" path="res://scene/mark.tscn" id="6_2bs4r"]
+[ext_resource type="PackedScene" uid="uid://dkmm384fyo3j8" path="res://scene/ritual_beat.tscn" id="7_wxnat"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_kl245")
@@ -16,7 +17,7 @@ script = ExtResource("2_mwe18")
 [node name="Invocations" type="Node2D" parent="."]
 
 [node name="Circle" type="Line2D" parent="."]
-position = Vector2(662, 433)
+position = Vector2(452, 303)
 script = ExtResource("2_1lb8w")
 
 [node name="Cursor" type="Sprite2D" parent="."]
@@ -26,3 +27,5 @@ texture = ExtResource("3_8hqjm")
 script = ExtResource("4_65wv7")
 
 [node name="Mark" parent="." instance=ExtResource("6_2bs4r")]
+
+[node name="RitualBeat" parent="." instance=ExtResource("7_wxnat")]

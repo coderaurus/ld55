@@ -1,3 +1,4 @@
 # Godot 4+ specific ignores
 .godot/
 build/
+docs/ld55-plans.leo
