@@ -23,6 +23,10 @@ func setup(beat, requirement):
 	elif requirement == "summoning_left" or requirement == "summoning_a":
 			rotation = deg_to_rad(270)
 	
+	if requirement.contains("_w") or requirement.contains("_d") or \
+	requirement.contains("_s") or requirement.contains("_a"):
+		self_modulate = Color.REBECCA_PURPLE
+	
 	required_invocation = requirement
 
 func fizzle():

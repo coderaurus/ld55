@@ -70,11 +70,16 @@ func _generate_invocation_beats():
 		beat = clampi(beat, 10, 350)
 		invocations_at.append(beat)
 		
-		var selected_invocation = wrapi(randi_range(0, 100) + randi_range(0, 100), 0, 3)
+		var selected_invocation_index = wrapi(randi_range(0, 100) + randi_range(0, 100), 0, 3)
+		var selected_invocation = invocation_inputs[selected_invocation_index]
+		
+		# +2.5% per level to pick secondary invocation
+		if randf() < clampf(0.025 * (parent.current_level+1), 0, 1.0):
+			selected_invocation = invocation_inputs_secondary[selected_invocation_index]
 		
 		var beat_scene:RitualBeat = parent.ritual_beat_scene.instantiate()
 		beat_scene.name = "RitualBeat%s" % (i+1)
-		beat_scene.setup(beat, invocation_inputs[selected_invocation])
+		beat_scene.setup(beat, selected_invocation)
 		
 		circle.add_child(beat_scene)
 
