@@ -12,6 +12,8 @@ script = ExtResource("1_kl245")
 [node name="Controls" type="Node2D" parent="."]
 script = ExtResource("2_mwe18")
 
+[node name="Followers" type="Node2D" parent="."]
+
 [node name="Level" type="Node2D" parent="."]
 script = ExtResource("3_jc1qa")
 

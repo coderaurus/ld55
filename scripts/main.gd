@@ -4,6 +4,7 @@ class_name Main
 @onready var invocations_group = $Invocations
 @onready var mark_scene = preload("res://scene/mark.tscn")
 @onready var ritual_beat_scene = preload("res://scene/ritual_beat.tscn")
+@onready var follower_scene = preload("res://scene/follower.tscn")
 @onready var level: Level = $Level
 
 @export_group("Scoring")
