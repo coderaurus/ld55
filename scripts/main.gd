@@ -48,9 +48,10 @@ func _ready():
 		beat_miss.connect($UI.on_beat_miss)
 	
 	level_data = _generate_level_data()
-	setup()
+	setup(false)
 
-func setup():
+func setup(auto_start = true):
+	followers = 0
 	current_level = 0
 	days_left = level_data.size()
 	var power_multiplier = multiplier_per_level
@@ -61,7 +62,7 @@ func setup():
 		titan_total_power += power
 	print("Titan power at (multiplier %s): %s" % [power_multiplier, titan_total_power])
 	
-	level.load_data(level_data[current_level])
+	_load_next_level(auto_start)
 
 func on_invoke(invocation):
 	var spawn_point = level.cursor.global_position
@@ -110,6 +111,8 @@ func on_invocation_circle_complete():
 			#level.load_data(level_data[current_level])
 	else:
 		level.load_next_circle()
+		if not level.cursor.moving:
+			level.cursor.moving = true
 
 func on_beat_fizzle():
 	circle_fizzles += 1
@@ -124,8 +127,10 @@ func on_level_ready(lvl):
 		
 	level.load_data(level_data[current_level])
 
-func _load_next_level():
+func _load_next_level(auto_start = true):
 	level.load_data(level_data[current_level])
+	if auto_start:
+		$UI.start_count_down()
 
 func next_level(modifier = "normal"):
 	var skip_day = false
@@ -154,7 +159,8 @@ func next_level(modifier = "normal"):
 	elif not skip_day:
 		_load_next_level()
 	else:
-		$UI.show_skipped_day()
+		_load_next_level(false)
+		$UI.show_skipped_day(new_followers)
 
 func _determine_outcome():
 	summoning_power = followers * power_per_follower
@@ -163,6 +169,9 @@ func _determine_outcome():
 
 func reset():
 	setup()
+
+func start_level():
+	level.activate()
 
 func _generate_level_data():
 	var data: Array[Resource] = [

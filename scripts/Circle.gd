@@ -7,7 +7,6 @@ signal circle_invoked
 
 @onready var cursor: InvocationCursor = $Cursor
 var next_invocation = 0
-var active = false
 var main: Main
 
 func _ready():
@@ -37,7 +36,6 @@ func setup(data: Resource):
 	circle_ready.emit(dots, global_position)
 	
 	cursor.speed = data.cursor_speed * main.speed_modifier
-	active = true
 
 func get_next_invocation():
 	return get_child(next_invocation + 1)

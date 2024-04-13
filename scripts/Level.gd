@@ -94,3 +94,6 @@ func is_level_complete():
 func load_next_circle():
 	_unload_circle()
 	_load_circle(data.circles[current_circle])
+
+func activate():
+	cursor.activate()

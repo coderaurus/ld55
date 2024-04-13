@@ -14,8 +14,6 @@ func setup(p, origin):
 	origin_point = origin
 	points = p
 	global_position = origin + points[0]
-	moving = true
-
 
 func _process(delta):
 	if moving and current_point == points.size():
@@ -30,3 +28,6 @@ func _process(delta):
 	
 	if position.distance_to(points[current_point]) <= 2:
 		current_point += 1
+
+func activate():
+	moving = true
