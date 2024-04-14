@@ -7,6 +7,7 @@ class_name Main
 @onready var follower_scene = preload("res://scene/follower.tscn")
 @onready var level: Level = $Level
 @onready var summoner: Summoner = $Summoner
+@onready var followersGroup: Followers = $Followers
 
 @export_group("Scoring")
 @export var hit_score = 10
@@ -61,6 +62,8 @@ func _ready():
 func setup(auto_start = true):
 	$UI.reset()
 	followers = 0
+	for c in followersGroup.get_children():
+		c.queue_free()
 	current_level = 0
 	days_left = level_data.size()
 	var power_multiplier = multiplier_per_level
@@ -106,18 +109,31 @@ func on_circle_ready(path, global_origin):
 	
 func on_invocation_circle_complete():
 	var scores = (circle_hits * hit_score * score_modifier) + (circle_brilliants * brilliant_score * score_modifier)
-	scores -= roundi(level.circle.next_invocation - circle_misses * miss_score) # spammed misses
+	print("Score 1/3: %s" % scores)
+	scores -= roundi(circle_misses * miss_score) # spammed misses
+	print("Score 2/3: %s" % scores)
 	scores -= roundi(circle_fizzles * fizzle_score) # fizzles
-	var new_followers = scores / 100
+	print("Score 3/3: %s" % scores)
+	
+	var new_followers = scores / 100.0
+	print("New followers: %s" % new_followers)
+	
+	# give some slack for the first level
+	if current_level == 0 and new_followers > 0.2:
+		new_followers = 1.0
 	new_followers = roundi(new_followers)
+	
 	followers += new_followers
 	
 	print("Path complete")
 	
+	followersGroup.add_follower(new_followers)
 	if level.is_level_complete():
 		current_level += 1
-		print("Level complete")
+		print("Level complete with %s new followers" % new_followers)
 		days_left -= 1
+		_group_scatter()
+		await get_tree().create_timer(0.5).timeout
 		$UI.on_level_complete(circle_hits, circle_brilliants, new_followers, circle_fizzles, followers, days_left)
 		#await get_tree().create_timer(2.0).timeout
 		#if current_level < level_data.size():
@@ -158,16 +174,21 @@ func next_level(modifier = "normal"):
 			speed_modifier -= 0.1
 		"teach":
 			new_followers = clampi(followers * 1.5, 1, 999999) - followers
-			followers = clampi(followers * 1.5, 1, 999999)
+			new_followers = clampi(new_followers, 1, 99999)
+			followers += new_followers
 			skip_day = true
 		"summon":
 			summoning = true
+	
+	followersGroup.add_follower(new_followers)
 	
 	$UI.hide_down_time()
 		
 	if summoning:
 		print("Summoing with %s followers" % followers)
 		_determine_outcome()
+		group_up()
+		await get_tree().create_timer(2.5).timeout
 		$UI.show_summoning(titan_defeated)
 	elif not skip_day:
 		_load_next_level()
@@ -185,6 +206,12 @@ func reset():
 
 func start_level():
 	level.activate()
+
+func group_up():
+	followersGroup.group_appear()
+
+func _group_scatter():
+	followersGroup.group_disappear()
 
 func _generate_level_data():
 	var data: Array[Resource] = [

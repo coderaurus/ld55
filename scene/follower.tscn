@@ -1,9 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://duj16luigg5iq"]
 
-[ext_resource type="Texture2D" uid="uid://xcgu0djwiqru" path="res://icon.svg" id="1_fq7kr"]
+[ext_resource type="Texture2D" uid="uid://bsxbniqnlumc2" path="res://gfx/follower.png" id="1_dweqg"]
 [ext_resource type="Script" path="res://scripts/Follower.gd" id="2_6b4ae"]
 
 [node name="Follower" type="Sprite2D"]
 position = Vector2(-83, 432)
-texture = ExtResource("1_fq7kr")
+scale = Vector2(2, 2)
+texture = ExtResource("1_dweqg")
 script = ExtResource("2_6b4ae")

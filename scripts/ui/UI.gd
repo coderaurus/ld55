@@ -78,7 +78,7 @@ func on_level_complete(hits, brilliants, followers, fizzles, total_followers, da
 	$Results/Fizzles.text = "Fizzles: %s" % fizzles
 	$Results/Followers.text = "No new followers..."
 	if followers > 0:
-		$Results/Followers.text = "+%s followers" % followers
+		$Results/Followers.text = "+%s follower(s)" % followers
 	
 	if days_left == 0:
 		$Downtime/Options/Normal.disabled = true
@@ -109,7 +109,7 @@ func show_summoning(did_win = false):
 
 func show_skipped_day(new_followers):
 	$SkipDay/Text2.text = "You spent your day teaching others
-gaining %s new followers." % new_followers
+gaining %s new follower(s)." % new_followers
 	$SkipDay.show()
 
 func _on_continue_pressed():
@@ -131,6 +131,7 @@ func pop_beat_message(message, c = Color.WHITE):
 	text_scene.pop(message, c)
 
 func start_count_down():
+	parent.group_up()
 	await get_tree().create_timer(0.5).timeout
 	pop_beat_message("Ready..")
 	await get_tree().create_timer(2.0).timeout
@@ -140,6 +141,12 @@ func start_count_down():
 func _on_start_pressed():
 	$Start.hide()
 	start_count_down()
+
+func change_modifiers():
+	if parent.speed_modifier != 1.0:
+		$Modifiers/Speed.text = "Speed x%s" % parent.speed_modifier
+	if parent.score_modifier != 1.0:
+		$Modifiers/FollowerGain.text = "Follows x%s" % parent.score_modifier
 
 func reset():
 	$Results/Hits.text = ""

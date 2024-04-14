@@ -25,9 +25,9 @@ func _change_hand_signs(failed = false):
 		chosen_sign = wrapi(chosen_sign + 1, 0, 2)
 	
 	var right_hand_pos = right_hand_pos_origin + Vector2.LEFT * 64
-	var right_hand_pos_closed = right_hand_pos_origin + Vector2.RIGHT * 64
+	var right_hand_pos_closed = right_hand_pos_origin + Vector2.RIGHT * 48
 	var left_hand_pos = left_hand_pos_origin + Vector2.RIGHT * 64
-	var left_hand_pos_closed = left_hand_pos_origin + Vector2.LEFT * 64
+	var left_hand_pos_closed = left_hand_pos_origin + Vector2.LEFT * 48
 		
 	var durations = [0.5, 0.0, 0.3, 0.2]
 	

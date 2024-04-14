@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://dvs30uxjgla0m"]
+[gd_scene load_steps=11 format=3 uid="uid://dvs30uxjgla0m"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_kl245"]
 [ext_resource type="Script" path="res://scripts/Controls.gd" id="2_mwe18"]
 [ext_resource type="Script" path="res://scripts/Level.gd" id="3_jc1qa"]
+[ext_resource type="Script" path="res://scripts/Followers.gd" id="4_hcanb"]
 [ext_resource type="Script" path="res://scripts/Summoner.gd" id="4_k8iur"]
 [ext_resource type="Texture2D" uid="uid://6x8fdkrjgag0" path="res://gfx/summoner_body.png" id="4_pg7lu"]
 [ext_resource type="Texture2D" uid="uid://0y0s5voj0qlv" path="res://gfx/summoner_hands.png" id="5_lffys"]
@@ -22,6 +23,8 @@ texture = ExtResource("6_ux6he")
 script = ExtResource("2_mwe18")
 
 [node name="Followers" type="Node2D" parent="."]
+y_sort_enabled = true
+script = ExtResource("4_hcanb")
 
 [node name="Summoner" type="Node2D" parent="."]
 script = ExtResource("4_k8iur")
@@ -44,10 +47,10 @@ texture = ExtResource("5_lffys")
 flip_h = true
 hframes = 3
 
+[node name="Invocations" type="Node2D" parent="."]
+
 [node name="Level" type="Node2D" parent="."]
 script = ExtResource("3_jc1qa")
-
-[node name="Invocations" type="Node2D" parent="."]
 
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource("6_4l2vd")
@@ -93,6 +96,25 @@ theme_override_font_sizes/font_size = 25
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
+
+[node name="Modifiers" type="VBoxContainer" parent="UI"]
+offset_left = 1086.0
+offset_top = 549.0
+offset_right = 1263.0
+offset_bottom = 701.0
+alignment = 2
+
+[node name="Speed" type="Label" parent="UI/Modifiers"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+horizontal_alignment = 2
+
+[node name="FollowerGain" type="Label" parent="UI/Modifiers"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+horizontal_alignment = 2
 
 [node name="Progress" type="Control" parent="UI"]
 layout_mode = 3
