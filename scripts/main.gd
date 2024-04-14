@@ -6,6 +6,7 @@ class_name Main
 @onready var ritual_beat_scene = preload("res://scene/ritual_beat.tscn")
 @onready var follower_scene = preload("res://scene/follower.tscn")
 @onready var level: Level = $Level
+@onready var summoner: Summoner = $Summoner
 
 @export_group("Scoring")
 @export var hit_score = 10
@@ -49,6 +50,10 @@ func _ready():
 		beat_hit.connect($UI.on_beat_hit)
 		beat_miss.connect($UI.on_beat_miss)
 		beat_wrong.connect($UI.on_beat_wrong)
+		
+		beat_hit.connect(summoner.on_beat_hit)
+		beat_miss.connect(summoner.on_beat_miss)
+		beat_wrong.connect(summoner.on_beat_miss)
 	
 	level_data = _generate_level_data()
 	setup(false)

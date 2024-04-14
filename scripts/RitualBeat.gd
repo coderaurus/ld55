@@ -26,16 +26,19 @@ func setup(beat, requirement):
 	
 	if requirement == "summoning_w" or requirement == "summoning_d" or \
 	requirement == "summoning_s" or requirement == "summoning_a":
-		self_modulate = Color.REBECCA_PURPLE
+		frame_coords.y += 1
 	
 	required_invocation = requirement
 
 func fizzle():
 	var tween = get_tree().create_tween()
-	tween.tween_property(self, "self_modulate", Color(self_modulate, 0.3), 1.0)
+	tween.tween_property(self, "self_modulate",\
+	 Color(self_modulate.r * 0.5, self_modulate.g * 0.5, self_modulate.b * 0.5),\
+	 1.0)
 
 func on_invoked():
 	invoked = true
+	frame_coords.x -= 1
 	var tween = get_tree().create_tween()
 	tween.tween_property(self, "scale", scale * 1.25, 1.0).set_trans(Tween.TRANS_ELASTIC)
 
