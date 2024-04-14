@@ -36,6 +36,7 @@ func _load_circle(circle_data: Resource):
 	add_child(new_circle)
 	circle = new_circle
 	cursor = circle.cursor
+	parent.get_node("Trace").setup(cursor)
 	
 	cursor.path_complete.connect(parent.on_invocation_circle_complete)
 	circle.circle_invoked.connect(on_circle_invoke)
@@ -104,6 +105,7 @@ func is_level_complete():
 func load_next_circle():
 	_unload_circle()
 	_load_circle(data.circles[current_circle])
+	
 
 func activate():
 	cursor.activate()

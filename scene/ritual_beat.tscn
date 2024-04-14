@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://scripts/RitualBeat.gd" id="2_baxx5"]
 
 [node name="RitualBeat" type="Sprite2D"]
+z_index = 6
 texture = ExtResource("1_ndbyn")
 hframes = 3
 vframes = 2

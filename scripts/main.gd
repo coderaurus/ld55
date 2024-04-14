@@ -136,7 +136,7 @@ func on_invocation_circle_complete():
 	followers += new_followers
 	
 	print("Path complete")
-	
+	$Trace.stop()
 	followersGroup.add_follower(new_followers)
 	if level.is_level_complete():
 		MusicManager.fade_out(false, true)
@@ -173,7 +173,10 @@ func _load_next_level(auto_start = true):
 	circle_hits = 0
 	circle_fizzles = 0
 	
+	
 	level.load_data(level_data[current_level])
+	$Trace.target = level.cursor
+	
 	if auto_start:
 		$UI.start_count_down()
 

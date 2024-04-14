@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dvs30uxjgla0m"]
+[gd_scene load_steps=13 format=3 uid="uid://dvs30uxjgla0m"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_kl245"]
 [ext_resource type="Script" path="res://scripts/Controls.gd" id="2_mwe18"]
@@ -10,6 +10,11 @@
 [ext_resource type="Script" path="res://scripts/ui/UI.gd" id="6_4l2vd"]
 [ext_resource type="Texture2D" uid="uid://cugp4euyhrmur" path="res://gfx/background.png" id="6_ux6he"]
 [ext_resource type="Texture2D" uid="uid://xcgu0djwiqru" path="res://icon.svg" id="6_w7jqp"]
+[ext_resource type="Script" path="res://scripts/Trace.gd" id="8_x5ve1"]
+
+[sub_resource type="Curve" id="Curve_7t4l3"]
+_data = [Vector2(0, 0), 0.0, 2.06937, 0, 0, Vector2(1, 1), 0.0989045, 0.0, 0, 0]
+point_count = 2
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_kl245")
@@ -46,6 +51,12 @@ scale = Vector2(2, 2)
 texture = ExtResource("5_lffys")
 flip_h = true
 hframes = 3
+
+[node name="Trace" type="Line2D" parent="."]
+z_index = 5
+width_curve = SubResource("Curve_7t4l3")
+default_color = Color(0.768627, 0.945098, 0.160784, 1)
+script = ExtResource("8_x5ve1")
 
 [node name="Invocations" type="Node2D" parent="."]
 
