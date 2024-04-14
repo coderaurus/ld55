@@ -10,6 +10,7 @@ var current_circle = 0
 
 var cursor
 var circle
+var preview
 
 var parent: Main
 
@@ -42,33 +43,49 @@ func _load_circle(circle_data: Resource):
 	circle.circle_invoked.connect(on_circle_invoke)
 	circle.circle_ready.connect(on_circle_ready)
 	circle.beat_fizzle.connect(parent.on_beat_fizzle)
-	_generate_invocation_beats()
+	_generate_invocation_beats(circle, circle_data)
 	circle.setup(circle_data)
+	
+	if preview != null:
+		preview.hide()
+		preview.deactivate()
+	
+	if data.circles.size() > current_circle + 1:
+		new_circle = circle_scene.instantiate()
+		add_child(new_circle)
+		preview = new_circle
+		_generate_invocation_beats(preview, data.circles[current_circle+1])
+		preview.setup(data.circles[current_circle+1], true)
 
-func _generate_invocation_beats():
-	print("Circle %s of %s" % [current_circle+1, data.circles.size()])
-	print("Circle Data #%s: %s %s %s" % [current_circle, data.circles[current_circle].invocations, \
-		data.circles[current_circle].cursor_speed, data.circles[current_circle].uses_arrows])
+func _generate_invocation_beats(circle: InvocationCircle, data:InvocationCircleData):
 	# amount of invocations per circle
-	var invocations = data.circles[current_circle].invocations
+	var invocations = data.invocations
 	var invocations_at = []
 	var current_deg = 0
 	var step_range = 360/invocations
 	var min_range = -10
 	var max_range = 15
-	var proximity_threshold = 10
+	var proximity_threshold = 25
 	for i in invocations:
-		current_deg += step_range + randi_range(min_range, max_range)
+		if i == 0:
+			current_deg += step_range + randi_range(0, max_range)
+		else:
+			current_deg += step_range + randi_range(min_range, max_range)
+		
 		var beat = current_deg
+		print("Beat %s" % beat)
 		if invocations_at.size() > 0:
 			var last_invocation = invocations_at.size()-1 
 			if beat - invocations_at[last_invocation] <= proximity_threshold:
-				current_deg = clampi(beat + 10, 10, 350)
+				current_deg = clampi(beat + proximity_threshold, 15, 340)
 				beat = current_deg
 				# at the end and cannot include the last one
-				if beat - invocations_at[last_invocation] <= proximity_threshold:
+				if beat - invocations_at[last_invocation] <= proximity_threshold\
+				or beat >= 340:
 					break
-		beat = clampi(beat, 10, 350)
+		elif beat >= 340:
+			break
+		beat = clampi(beat, 15, 340)
 		invocations_at.append(beat)
 		
 		var selected_invocation_index = wrapi(randi_range(0, 100) + randi_range(0, 100), 0, 3)
@@ -88,7 +105,8 @@ func on_circle_ready(path, global_origin):
 	cursor.setup(path, global_origin)
 
 func on_circle_invoke():
-	if current_circle < data.circles.size():
+	var cirlces = data.circles.size()
+	if current_circle < cirlces:
 		current_circle += 1
 
 func _unload_circle():

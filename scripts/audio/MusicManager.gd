@@ -11,7 +11,7 @@ var stored_db = 0
 
 
 func _ready():
-	var initial_db = -10
+	var initial_db = -15
 	volume_db = initial_db
 	additional_track = AudioStreamPlayer.new()
 	add_child(additional_track)

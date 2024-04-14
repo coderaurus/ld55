@@ -118,6 +118,8 @@ func on_circle_ready(path, global_origin):
 	pass
 	
 func on_invocation_circle_complete():
+	level.circle.circle_invoked.emit()
+	
 	var scores = (circle_hits * hit_score * score_modifier) + (circle_brilliants * brilliant_score * score_modifier)
 	print("Score 1/3: %s" % scores)
 	scores -= roundi(circle_misses * miss_score) # spammed misses
@@ -134,7 +136,6 @@ func on_invocation_circle_complete():
 	new_followers = roundi(new_followers)
 	
 	followers += new_followers
-	
 	print("Path complete")
 	$Trace.stop()
 	followersGroup.add_follower(new_followers)
@@ -150,7 +151,6 @@ func on_invocation_circle_complete():
 		#if current_level < level_data.size():
 			#level.load_data(level_data[current_level])
 	else:
-		await get_tree().create_timer(0.2).timeout
 		level.load_next_circle()
 		if not level.cursor.moving:
 			level.cursor.moving = true

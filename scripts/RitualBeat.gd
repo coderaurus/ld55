@@ -23,6 +23,8 @@ func setup(beat, requirement):
 			rotation = deg_to_rad(180)
 	elif requirement == "summoning_left" or requirement == "summoning_a":
 			rotation = deg_to_rad(270)
+	else:
+		rotation = deg_to_rad(0)
 	
 	if requirement == "summoning_w" or requirement == "summoning_d" or \
 	requirement == "summoning_s" or requirement == "summoning_a":
