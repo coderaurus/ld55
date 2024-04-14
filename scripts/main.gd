@@ -5,6 +5,7 @@ class_name Main
 @onready var mark_scene = preload("res://scene/mark.tscn")
 @onready var ritual_beat_scene = preload("res://scene/ritual_beat.tscn")
 @onready var follower_scene = preload("res://scene/follower.tscn")
+@onready var splash_particle_scene = preload("res://scene/splash_particles.tscn")
 @onready var level: Level = $Level
 @onready var summoner: Summoner = $Summoner
 @onready var followersGroup: Followers = $Followers
@@ -85,6 +86,7 @@ func on_invoke(invocation):
 		var next:RitualBeat = level.circle.get_next_invocation()
 		var distance = next.global_position.distance_to(spawn_point)
 		if not next.invoked and distance <= next.invocation_grace_range and next.requires(invocation):
+			add_splash(mark.global_position, true)
 			print("HIT (%s/%s)" % [distance, next.invocation_grace_range])
 			next.on_invoked()
 			var accuracy = 1 - distance / next.invocation_grace_range
@@ -93,11 +95,14 @@ func on_invoke(invocation):
 			if accuracy >= 0.75:
 				circle_brilliants += 1
 			beat_hit.emit(accuracy, level.circle.global_position + Vector2.LEFT * 32)
+			
 		if not next.invoked and distance <= next.invocation_grace_range and not next.requires(invocation):
+			add_splash(mark.global_position)
 			circle_misses += 1
 			beat_wrong.emit(0, level.circle.global_position + Vector2.LEFT * 32)
 			print("MISS (%s/%s)" % [distance, next.invocation_grace_range])
 		elif not next.invoked:
+			add_splash(mark.global_position)
 			circle_misses += 1
 			var off_shoot = distance - next.invocation_grace_range
 			beat_miss.emit(off_shoot, level.circle.global_position + Vector2.LEFT * 32)
@@ -212,6 +217,15 @@ func group_up():
 
 func _group_scatter():
 	followersGroup.group_disappear()
+
+func add_splash(pos, is_hit = false):
+	var splash:SplashParticle = splash_particle_scene.instantiate()
+	$Invocations.add_child(splash)
+	splash.global_position = pos
+	if is_hit:
+		splash.emit(24, 60, 20)
+	else:
+		splash.emit(8, 50, 25)
 
 func _generate_level_data():
 	var data: Array[Resource] = [

@@ -33,6 +33,7 @@ func _process(delta):
 	
 	current_interval += delta
 	if current_interval >= frame_rotation_interval:
+		$Particles.emitting = true
 		_rotate_sprite()
 		current_interval = 0
 

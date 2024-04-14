@@ -34,7 +34,7 @@ func fizzle():
 	var tween = get_tree().create_tween()
 	tween.tween_property(self, "self_modulate",\
 	 Color(self_modulate.r * 0.5, self_modulate.g * 0.5, self_modulate.b * 0.5),\
-	 1.0)
+	 0.5)
 
 func on_invoked():
 	invoked = true
