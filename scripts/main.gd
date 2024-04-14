@@ -190,9 +190,11 @@ func next_level(modifier = "normal"):
 		"prowess":
 			score_modifier += 0.1
 			speed_modifier += 0.1
+			$UI.change_modifiers()
 		"focus":
 			score_modifier -= 0.1
 			speed_modifier -= 0.1
+			$UI.change_modifiers()
 		"teach":
 			new_followers = clampi(followers * 1.5, 1, 999999) - followers
 			new_followers = clampi(new_followers, 1, 99999)
