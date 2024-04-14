@@ -1,4 +1,5 @@
 extends Line2D
+class_name TraceTrail
 
 var target: Node2D
 var stopped = false
@@ -6,6 +7,8 @@ var stopped = false
 func setup(_target):
 	target = _target
 	stopped = false
+	print("Trace set to %s" % target)
+	show()
 
 func stop():
 	stopped = true

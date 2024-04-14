@@ -399,7 +399,7 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 20
 text = "Teach
-(Skip ritual, gain 1.5x followers)"
+(Skip ritual, gain 20% followers)"
 horizontal_alignment = 1
 
 [node name="Blank" type="Control" parent="UI/Downtime/Options"]
@@ -457,7 +457,7 @@ offset_right = 494.0
 offset_bottom = 97.0
 theme = ExtResource("12_qoqr4")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 0
+theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 25
 text = "You spent your day teaching others
 gaining X new followers."
@@ -471,8 +471,7 @@ offset_right = 463.0
 offset_bottom = 190.0
 theme = ExtResource("12_qoqr4")
 texture_normal = ExtResource("12_dwitw")
-texture_pressed = ExtResource("13_c1846")
-texture_focused = ExtResource("13_c1846")
+texture_hover = ExtResource("13_c1846")
 stretch_mode = 6
 
 [node name="Text3" type="Label" parent="UI/SkipDay/Continue"]

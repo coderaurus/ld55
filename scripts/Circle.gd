@@ -75,7 +75,7 @@ func _process(delta):
 				next.fizzle()
 			
 			next_invocation += 1
-			print("Moving to next invocation (%s)" % next_invocation)
+			#print("Moving to next invocation (%s)" % next_invocation)
 			#if circle_complete():
 				#circle_invoked.emit()
 

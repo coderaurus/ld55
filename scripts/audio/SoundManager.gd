@@ -3,7 +3,7 @@ extends AudioStreamPlayer
 @export var sounds : Dictionary = {}
 var stored_db = 0
 const MUTE_DB = -80
-const MAX_DB = -6
+const MAX_DB = -3
 
 signal volume_changed
 

@@ -35,7 +35,6 @@ func _process(delta):
 
 
 func on_beat_hit(accuracy, pos):
-	print("Hit at %s" % pos)
 	#print("Accuracy %s" % accuracy)
 	var message = "Good"
 	var text_color = Color.ORANGE
@@ -52,7 +51,6 @@ func on_beat_hit(accuracy, pos):
 	text_scene.pop(message, text_color)
 	
 func on_beat_miss(distance, pos: Vector2):
-	print("Miss at %s" % pos)
 	var message = "Miss"
 	var text_color = Color.WHITE
 	if distance >= 45:
@@ -68,7 +66,6 @@ func on_beat_miss(distance, pos: Vector2):
 	text_scene.pop(message, text_color)
 
 func on_beat_wrong(distance, pos: Vector2):
-	print("Wrong at %s" % pos)
 	var message = "Wrong"
 	var text_color = Color.DARK_RED
 	
@@ -140,7 +137,7 @@ func show_summoning(did_win = false):
 	$Summoning.show()
 
 func show_skipped_day(new_followers):
-	$SkipDay/Text2.text = "You spent your day teaching others
+	$SkipDay/Text2.text = "You spent your day teaching others,
 gaining %s new follower(s)." % new_followers
 	$SkipDay.show()
 
@@ -182,8 +179,12 @@ func _on_start_pressed():
 func change_modifiers():
 	if parent.speed_modifier != 1.0:
 		$Modifiers/Speed.text = "Speed x%s" % parent.speed_modifier
+	else:
+		$Modifiers/Speed.text = ""
 	if parent.score_modifier != 1.0:
 		$Modifiers/FollowerGain.text = "Follows x%s" % parent.score_modifier
+	else:
+		$Modifiers/FollowerGain.text = ""
 
 func toggle_pause(paused):
 	if not paused:

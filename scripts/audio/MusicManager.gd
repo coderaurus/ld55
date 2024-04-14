@@ -1,7 +1,7 @@
 extends AudioStreamPlayer
 
 const MUTE_DB = -80
-const MAX_DB = -10
+const MAX_DB = -5
 
 @export var ost : Dictionary = {}
 
