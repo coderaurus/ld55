@@ -145,19 +145,21 @@ gaining %s new follower(s)." % new_followers
 	$SkipDay.show()
 
 func _on_continue_pressed():
+	SoundManager.sound("select")
 	$SkipDay.hide()
 	start_count_down()
 
 func _on_replay_pressed():
+	SoundManager.sound("select")
 	parent.reset()
 	$Summoning.hide()
 
 func pop_beat_message(message, c = Color.WHITE):
-	var pos = Vector2(690, 360) + Vector2.LEFT * 96
+	var pos = parent.level.circle.global_position + Vector2.LEFT * 64
 	var text_scene: BeatHitText = beat_hit_text_scene.instantiate()
 	$Beats.add_child(text_scene)
 	#text_scene.position = Vector2(690, 360)
-	pos.x = randi_range(pos.x - 32, pos.x + 32)
+	#pos.x = randi_range(pos.x - 32, pos.x + 32)
 	pos.y = randi_range(pos.y - 32, pos.y + 32)
 	text_scene.position = pos
 	text_scene.pop(message, c)
@@ -172,6 +174,7 @@ func start_count_down():
 	count_down_completed.emit()
 
 func _on_start_pressed():
+	SoundManager.sound("select")
 	$Start.hide()
 	parent.level.show()
 	start_count_down()

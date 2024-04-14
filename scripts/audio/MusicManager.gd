@@ -13,7 +13,7 @@ var track_one_muted = false
 var track_two_muted = false
 
 func _ready():
-	var initial_db = -20
+	var initial_db = MAX_DB
 	volume_db = initial_db
 	additional_track = AudioStreamPlayer.new()
 	add_child(additional_track)
@@ -74,13 +74,13 @@ func fade_out(stop_it = false, use_second_track = false):
 	var tween = get_tree().create_tween()
 	
 	if use_second_track:
-		tween.tween_property(additional_track, "volume_db", MUTE_DB, 0.5)
+		tween.tween_property(additional_track, "volume_db", MUTE_DB, 0.75)
 		if stop_it:
 			additional_track.stream_paused = true
 			additional_track.stream = null
 			additional_track.stop()
 	else:
-		tween.tween_property(self, "volume_db", MUTE_DB, 0.5)
+		tween.tween_property(self, "volume_db", MUTE_DB, 0.75)
 		if stop_it:
 			stream_paused = true
 			stream = null
@@ -92,9 +92,9 @@ func fade_in(use_second_track = false):
 	
 	var tween = get_tree().create_tween()
 	if use_second_track:
-		tween.tween_property(additional_track, "volume_db", stored_db, 0.5)
+		tween.tween_property(additional_track, "volume_db", stored_db, 0.75)
 	else:
-		tween.tween_property(self, "volume_db", stored_db, 0.5)
+		tween.tween_property(self, "volume_db", stored_db, 0.75)
 
 func play_song(song = "", use_second_track = false):
 	var _stream = stream

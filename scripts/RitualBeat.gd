@@ -14,7 +14,7 @@ var invoked = false
 
 
 func setup(beat, requirement):
-	print("Setting up %s %s" % [beat, requirement])
+	#print("Setting up %s %s" % [beat, requirement])
 	beat_at = beat
 	
 	if requirement == "summoning_right" or requirement == "summoning_d":
@@ -45,5 +45,5 @@ func on_invoked():
 	tween.tween_property(self, "scale", scale * 1.25, 1.0).set_trans(Tween.TRANS_ELASTIC)
 
 func requires(invocation):
-	print("Incoming(%s) => Has(%s)" % [invocation, required_invocation])
+	#print("Incoming(%s) => Has(%s)" % [invocation, required_invocation])
 	return required_invocation == invocation or required_invocation == "any"

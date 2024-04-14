@@ -74,7 +74,7 @@ func setup(auto_start = true):
 	titan_total_power = 0
 	for i in days_left:
 		var power = base_power_per_level * power_multiplier
-		power_multiplier *= multiplier_per_level
+		#power_multiplier *= multiplier_per_level
 		titan_total_power += power
 	print("Titan power at (multiplier %s): %s" % [power_multiplier, titan_total_power])
 	
@@ -97,20 +97,22 @@ func on_invoke(invocation):
 			circle_hits += 1
 			if accuracy >= 0.75:
 				circle_brilliants += 1
-			beat_hit.emit(accuracy, level.circle.global_position + Vector2.LEFT * 32)
+			beat_hit.emit(accuracy, level.circle.global_position + Vector2.LEFT * 64)
 			SoundManager.sound("invocation", randf_range(0.8, 1.2))
 			
 		if not next.invoked and distance <= next.invocation_grace_range and not next.requires(invocation):
 			add_splash(mark.global_position)
 			circle_misses += 1
-			beat_wrong.emit(0, level.circle.global_position + Vector2.LEFT * 32)
-			print("MISS (%s/%s)" % [distance, next.invocation_grace_range])
+			beat_wrong.emit(0, level.circle.global_position + Vector2.LEFT * 64)
+			SoundManager.sound("failure", 1.5)
+			#print("MISS (%s/%s)" % [distance, next.invocation_grace_range])
 		elif not next.invoked:
 			add_splash(mark.global_position)
 			circle_misses += 1
 			var off_shoot = distance - next.invocation_grace_range
-			beat_miss.emit(off_shoot, level.circle.global_position + Vector2.LEFT * 32)
-			print("MISS (%s/%s)" % [distance, next.invocation_grace_range])
+			beat_miss.emit(off_shoot, level.circle.global_position + Vector2.LEFT * 64)
+			SoundManager.sound("failure", 1.5)
+			#print("MISS (%s/%s)" % [distance, next.invocation_grace_range])
 
 func on_circle_ready(path, global_origin):
 	#level.cursor.setup(path, global_origin)
@@ -177,6 +179,8 @@ func _load_next_level(auto_start = true):
 		$UI.start_count_down()
 
 func next_level(modifier = "normal"):
+	SoundManager.sound("select")
+	$UI.hide_report()
 	var skip_day = false
 	var summoning = false
 	var new_followers = 0

@@ -3,12 +3,12 @@ extends AudioStreamPlayer
 @export var sounds : Dictionary = {}
 var stored_db = 0
 const MUTE_DB = -80
-const MAX_DB = -5
+const MAX_DB = -6
 
 signal volume_changed
 
 func _ready():
-	volume_db = -15
+	volume_db = MAX_DB
 
 func toggle() -> bool:
 	if volume_db == MUTE_DB:
