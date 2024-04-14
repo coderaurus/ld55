@@ -65,27 +65,34 @@ func _generate_invocation_beats(circle: InvocationCircle, data:InvocationCircleD
 	var step_range = 360/invocations
 	var min_range = -10
 	var max_range = 15
-	var proximity_threshold = 25
+	var proximity_threshold = 30
 	for i in invocations:
 		if i == 0:
 			current_deg += step_range + randi_range(0, max_range)
 		else:
 			current_deg += step_range + randi_range(min_range, max_range)
 		
+		var too_close = false
 		var beat = current_deg
-		print("Beat %s" % beat)
+		beat = clampi(beat, 15, 340)
 		if invocations_at.size() > 0:
 			var last_invocation = invocations_at.size()-1 
-			if beat - invocations_at[last_invocation] <= proximity_threshold:
+			var distance_between_last_two = beat - invocations_at[last_invocation]
+			if  distance_between_last_two <= proximity_threshold:
 				current_deg = clampi(beat + proximity_threshold, 15, 340)
 				beat = current_deg
 				# at the end and cannot include the last one
-				if beat - invocations_at[last_invocation] <= proximity_threshold\
+				distance_between_last_two = beat - invocations_at[last_invocation]
+				if distance_between_last_two <= proximity_threshold\
 				or beat >= 340:
-					break
+					too_close = true
 		elif beat >= 340:
+			too_close = true
+		
+		if too_close:
 			break
-		beat = clampi(beat, 15, 340)
+		
+		
 		invocations_at.append(beat)
 		
 		var selected_invocation_index = wrapi(randi_range(0, 100) + randi_range(0, 100), 0, 3)
