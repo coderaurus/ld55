@@ -13,6 +13,7 @@ var circle
 var preview
 
 var parent: Main
+var active = false
 
 var invocation_inputs = ["summoning_up", "summoning_right", "summoning_down","summoning_left"]
 var invocation_inputs_secondary = ["summoning_w", "summoning_d", "summoning_s","summoning_a"]
@@ -124,7 +125,11 @@ func _unload_circle():
 	circle = null
 
 func is_level_complete():
-	return current_circle == data.circles.size()
+	var is_complete = current_circle == data.circles.size()
+	if is_complete:
+		active = false
+	
+	return is_complete
 
 func load_next_circle():
 	_unload_circle()
@@ -132,4 +137,5 @@ func load_next_circle():
 	
 
 func activate():
+	active = true
 	cursor.activate()

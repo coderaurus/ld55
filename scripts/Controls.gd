@@ -12,6 +12,16 @@ func _process(delta):
 	if Input.is_action_just_pressed("pause"):
 		parent.toggle_pause()
 	
+	if Input.is_action_just_pressed("ui_toggle_music"):
+		var toggle_both_tracks = parent.level.active
+		if toggle_both_tracks:
+			MusicManager.toggle()
+		else:
+			MusicManager.toggle(true, 0)
+	
+	if Input.is_action_just_pressed("ui_toggle_sound"):
+		SoundManager.toggle()
+	
 	if not parent.level.cursor.moving:
 		return
 	# MAP possible keys for summoning

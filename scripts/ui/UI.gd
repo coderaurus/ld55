@@ -22,6 +22,16 @@ func _ready():
 func _process(delta):
 	$Progress/Follower.text = "Followers: %s" % parent.followers
 	$Progress/Days.text = "%s days left" % parent.days_left
+	
+	if MusicManager.track_one_muted:
+		$Muted/Music.show()
+	elif $Muted/Music.visible:
+		$Muted/Music.hide()
+	
+	if SoundManager.volume_db == SoundManager.MUTE_DB:
+		$Muted/Sound.show()
+	elif $Muted/Sound.visible:
+		$Muted/Sound.hide()
 
 
 func on_beat_hit(accuracy, pos):
@@ -118,6 +128,7 @@ func hide_down_time():
 	$Downtime.hide()
 
 func show_summoning(did_win = false):
+	hide_report()
 	var lose_msg = "Regardless of your valiant efforts, the TITAN owerpowered your summon. You lose."
 	var win_msg = "The mighty beast FISH flushed TITAN down the volcano! You win!"
 	$Summoning/Outcome.text = lose_msg

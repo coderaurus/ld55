@@ -7,11 +7,13 @@ const MAX_DB = -10
 
 var additional_track: AudioStreamPlayer
 
-var stored_db = 0
+var stored_db = MAX_DB
 
+var track_one_muted = false
+var track_two_muted = false
 
 func _ready():
-	var initial_db = -15
+	var initial_db = -20
 	volume_db = initial_db
 	additional_track = AudioStreamPlayer.new()
 	add_child(additional_track)
@@ -29,7 +31,8 @@ func song_playing(song, use_second_track=false):
 	return false
 	
 func toggle(only_one_track = false, track = 0) -> bool:
-	if volume_db == MUTE_DB:
+	if volume_db == MUTE_DB or only_one_track and track == 1 \
+	and additional_track.volume_db == MUTE_DB:
 		unmute_music(only_one_track, track)
 		return true
 	else:
@@ -40,18 +43,33 @@ func mute_music(only_one_track = false, track = 0):
 	stored_db = volume_db
 	if not only_one_track or only_one_track and track == 0:
 		volume_db = MUTE_DB
-	elif not only_one_track or only_one_track and track == 1:
+		track_one_muted = true
+	if not only_one_track or only_one_track and track == 1:
 		additional_track.volume_db = MUTE_DB
+		track_two_muted = true
 	
 func unmute_music(only_one_track = false, track = 0):
 	if not only_one_track or only_one_track and track == 0:
 		volume_db = stored_db
-	elif not only_one_track or only_one_track and track == 1:
+		track_one_muted = false
+		
+		if track_two_muted:
+			track_two_muted = false
+		
+		if only_one_track and track == 0:
+			return volume_db
+	if not only_one_track or only_one_track and track == 1:
 		additional_track.volume_db = stored_db
+		track_two_muted = false
+		if only_one_track and track == 1:
+			return additional_track.volume_db
 	return volume_db
 #	print("Unmute music to %s" % stored_db)
 
 func fade_out(stop_it = false, use_second_track = false):
+	if track_one_muted or use_second_track and track_two_muted:
+		return
+	
 	stored_db = volume_db
 	var tween = get_tree().create_tween()
 	
@@ -69,6 +87,9 @@ func fade_out(stop_it = false, use_second_track = false):
 			stop()
 
 func fade_in(use_second_track = false):
+	if track_one_muted or use_second_track and track_two_muted:
+		return
+	
 	var tween = get_tree().create_tween()
 	if use_second_track:
 		tween.tween_property(additional_track, "volume_db", stored_db, 0.5)

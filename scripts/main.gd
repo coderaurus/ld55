@@ -58,7 +58,8 @@ func _ready():
 	level_data = _generate_level_data()
 	setup(false)
 	MusicManager.play_song("track_one")
-	MusicManager.mute_music(true, 1)
+	
+	MusicManager.additional_track.volume_db = MusicManager.MUTE_DB
 	MusicManager.play_song("track_two", true)
 
 func setup(auto_start = true):

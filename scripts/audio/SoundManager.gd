@@ -8,7 +8,7 @@ const MAX_DB = -5
 signal volume_changed
 
 func _ready():
-	volume_db = -10
+	volume_db = -15
 
 func toggle() -> bool:
 	if volume_db == MUTE_DB:

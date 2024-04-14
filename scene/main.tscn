@@ -606,6 +606,29 @@ text = "LORE"
 vertical_alignment = 2
 autowrap_mode = 2
 
+[node name="Credits" type="Label" parent="UI/Start"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -629.5
+offset_top = 285.0
+offset_right = 12.5
+offset_bottom = 349.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_qoqr4")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/font_size = 18
+text = "Ludum Dare 55
+A game by: CodeRaurus"
+vertical_alignment = 2
+autowrap_mode = 2
+
 [node name="Lore" type="Label" parent="UI/Start"]
 layout_mode = 1
 anchors_preset = 8
@@ -864,6 +887,34 @@ text = "PAUSED"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
+
+[node name="Muted" type="VBoxContainer" parent="UI"]
+offset_left = 1015.0
+offset_top = 16.0
+offset_right = 1265.0
+offset_bottom = 88.0
+
+[node name="Music" type="Label" parent="UI/Muted"]
+layout_mode = 2
+theme = ExtResource("12_qoqr4")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/font_size = 24
+text = "No music"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Sound" type="Label" parent="UI/Muted"]
+layout_mode = 2
+theme = ExtResource("12_qoqr4")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/font_size = 24
+text = "No sound"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [connection signal="pressed" from="UI/SkipDay/Continue" to="UI" method="_on_continue_pressed"]
 [connection signal="pressed" from="UI/Summoning/Continue" to="UI" method="_on_replay_pressed"]
