@@ -148,6 +148,12 @@ func change_modifiers():
 	if parent.score_modifier != 1.0:
 		$Modifiers/FollowerGain.text = "Follows x%s" % parent.score_modifier
 
+func toggle_pause(paused):
+	if not paused:
+		$Paused.show()
+	else:
+		$Paused.hide()
+
 func reset():
 	$Results/Hits.text = ""
 	$Results/Brilliants.text = ""

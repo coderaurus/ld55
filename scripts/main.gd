@@ -246,6 +246,10 @@ func add_splash(pos, is_hit = false):
 	else:
 		splash.emit(8, 50, 25)
 
+func toggle_pause():
+	level.cursor.moving = !level.cursor.moving
+	$UI.toggle_pause(level.cursor.moving)
+
 func _generate_level_data():
 	var data: Array[Resource] = [
 		LevelData.new(

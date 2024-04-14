@@ -9,12 +9,12 @@ func _ready():
 	symbol_invoked.connect(parent.on_invoke)
 
 func _process(delta):
+	if Input.is_action_just_pressed("pause"):
+		parent.toggle_pause()
+	
 	if not parent.level.cursor.moving:
 		return
-	
 	# MAP possible keys for summoning
-	#if Input.is_action_just_pressed("summoning_space"):
-		#symbol_invoked.emit("summoning_space")
 	if Input.is_action_just_pressed("summoning_up"):
 		symbol_invoked.emit("summoning_up")
 	elif Input.is_action_just_pressed("summoning_w"):
