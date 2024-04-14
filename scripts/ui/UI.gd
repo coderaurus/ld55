@@ -1,6 +1,8 @@
 extends CanvasLayer
 
 @onready var beat_hit_text_scene = preload("res://scene/ui/beat_hit_text.tscn")
+@onready var good_ending_image = preload("res://gfx/ending_good.png")
+@onready var bad_ending_image = preload("res://gfx/ending_bad.png")
 
 signal count_down_completed
 
@@ -73,27 +75,44 @@ func on_level_complete(hits, brilliants, followers, fizzles, total_followers, da
 	$Progress/Days.text = "%s days left" % days_left
 	$Progress/Follower.text = "%s followers" % total_followers
 	
-	$Results/Hits.text = "Total hits: %s" % hits
-	$Results/Brilliants.text = "Brilliant hits: %s" % brilliants
-	$Results/Fizzles.text = "Fizzles: %s" % fizzles
-	$Results/Followers.text = "No new followers..."
+	$Report.show()
+	$Report/Results/Hits.text = "Total hits: %s" % hits
+	await get_tree().create_timer(0.1)
+	$Report/Results/Brilliants.text = "Brilliant hits: %s" % brilliants
+	await get_tree().create_timer(0.1)
+	$Report/Results/Fizzles.text = "Inactivations: %s" % fizzles
+	await get_tree().create_timer(0.1)
+	$Report/Results/Followers.text = "No new followers..."
 	if followers > 0:
-		$Results/Followers.text = "+%s follower(s)" % followers
+		$Report/Results/Followers.text = "+%s follower(s)" % followers
+	
+	
+	
+	$Downtime.visible = true
 	
 	if days_left == 0:
 		$Downtime/Options/Normal.disabled = true
 		$Downtime/Options/Prowess.disabled = true
 		$Downtime/Options/Focus.disabled = true
 		$Downtime/Options/Teach.disabled = true
+		$Downtime/Options/Normal/Label.self_modulate = Color.DARK_SLATE_GRAY
+		$Downtime/Options/Prowess/Label.self_modulate = Color.DARK_SLATE_GRAY
+		$Downtime/Options/Focus/Label.self_modulate = Color.DARK_SLATE_GRAY
+		$Downtime/Options/Teach/Label.self_modulate = Color.DARK_SLATE_GRAY
 		$Downtime/Options/Blank.visible = false
 	else:
 		$Downtime/Options/Normal.disabled = false
 		$Downtime/Options/Prowess.disabled = false
 		$Downtime/Options/Focus.disabled = false
 		$Downtime/Options/Teach.disabled = false
+		$Downtime/Options/Normal/Label.self_modulate = Color.WHITE
+		$Downtime/Options/Prowess/Label.self_modulate = Color.WHITE
+		$Downtime/Options/Focus/Label.self_modulate = Color.WHITE
+		$Downtime/Options/Teach/Label.self_modulate = Color.WHITE
 		$Downtime/Options/Blank.visible = true
-	
-	$Downtime.visible = true
+
+func hide_report():
+	$Report.hide()
 
 func hide_down_time():
 	$Downtime.hide()
@@ -102,8 +121,10 @@ func show_summoning(did_win = false):
 	var lose_msg = "Regardless of your valiant efforts, the TITAN owerpowered your summon. You lose."
 	var win_msg = "The mighty beast FISH flushed TITAN down the volcano! You win!"
 	$Summoning/Outcome.text = lose_msg
+	$Summoning/Image.texture = bad_ending_image
 	if did_win:
 		$Summoning/Outcome.text = win_msg
+		$Summoning/Image.texture = good_ending_image
 	
 	$Summoning.show()
 
@@ -132,6 +153,7 @@ func pop_beat_message(message, c = Color.WHITE):
 
 func start_count_down():
 	parent.group_up()
+	parent.summoner.raise_hands()
 	await get_tree().create_timer(0.5).timeout
 	pop_beat_message("Ready..")
 	await get_tree().create_timer(2.0).timeout
@@ -140,6 +162,7 @@ func start_count_down():
 
 func _on_start_pressed():
 	$Start.hide()
+	parent.level.show()
 	start_count_down()
 
 func change_modifiers():
@@ -155,7 +178,10 @@ func toggle_pause(paused):
 		$Paused.hide()
 
 func reset():
-	$Results/Hits.text = ""
-	$Results/Brilliants.text = ""
-	$Results/Fizzles.text = ""
-	$Results/Followers.text = ""
+	$Modifiers/FollowerGain.text = ""
+	$Modifiers/Speed.text = ""
+	
+	$Report/Results/Hits.text = ""
+	$Report/Results/Brilliants.text = ""
+	$Report/Results/Fizzles.text = ""
+	$Report/Results/Followers.text = ""

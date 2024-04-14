@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dvs30uxjgla0m"]
+[gd_scene load_steps=22 format=3 uid="uid://dvs30uxjgla0m"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_kl245"]
 [ext_resource type="Script" path="res://scripts/Controls.gd" id="2_mwe18"]
@@ -9,8 +9,17 @@
 [ext_resource type="Texture2D" uid="uid://0y0s5voj0qlv" path="res://gfx/summoner_hands.png" id="5_lffys"]
 [ext_resource type="Script" path="res://scripts/ui/UI.gd" id="6_4l2vd"]
 [ext_resource type="Texture2D" uid="uid://cugp4euyhrmur" path="res://gfx/background.png" id="6_ux6he"]
-[ext_resource type="Texture2D" uid="uid://xcgu0djwiqru" path="res://icon.svg" id="6_w7jqp"]
 [ext_resource type="Script" path="res://scripts/Trace.gd" id="8_x5ve1"]
+[ext_resource type="Texture2D" uid="uid://c2ef565i5xofn" path="res://gfx/buttons1.png" id="12_dwitw"]
+[ext_resource type="Theme" uid="uid://cksmghfojjnp3" path="res://themes/base_theme.tres" id="12_qoqr4"]
+[ext_resource type="Texture2D" uid="uid://3hu36k7udq10" path="res://gfx/letter.png" id="13_amjwk"]
+[ext_resource type="Texture2D" uid="uid://cl4wxcham7shf" path="res://gfx/buttons2.png" id="13_c1846"]
+[ext_resource type="Texture2D" uid="uid://dhhd8qlsg6505" path="res://gfx/buttons3.png" id="14_yyoud"]
+[ext_resource type="Texture2D" uid="uid://dr8wls8cgvjvg" path="res://gfx/invocation_guides1.png" id="15_emkyl"]
+[ext_resource type="Texture2D" uid="uid://dgwudbg03omkf" path="res://gfx/invocation_guides2.png" id="16_cc05x"]
+[ext_resource type="Texture2D" uid="uid://4aldn1tv7x3c" path="res://gfx/end_report.png" id="17_1m22o"]
+[ext_resource type="Texture2D" uid="uid://bugyojppog7y7" path="res://gfx/foreground.png" id="17_w6kk5"]
+[ext_resource type="Texture2D" uid="uid://ouxlda5wkgqk" path="res://gfx/ending_bad.png" id="18_dy0fj"]
 
 [sub_resource type="Curve" id="Curve_7t4l3"]
 _data = [Vector2(0, 0), 0.0, 2.06937, 0, 0, Vector2(1, 1), 0.0989045, 0.0, 0, 0]
@@ -40,13 +49,13 @@ scale = Vector2(2, 2)
 texture = ExtResource("4_pg7lu")
 
 [node name="RightHand" type="Sprite2D" parent="Summoner"]
-position = Vector2(425, 615)
+position = Vector2(425, 915)
 scale = Vector2(2, 2)
 texture = ExtResource("5_lffys")
 hframes = 3
 
 [node name="LeftHand" type="Sprite2D" parent="Summoner"]
-position = Vector2(856, 615)
+position = Vector2(856, 915)
 scale = Vector2(2, 2)
 texture = ExtResource("5_lffys")
 flip_h = true
@@ -61,51 +70,92 @@ script = ExtResource("8_x5ve1")
 [node name="Invocations" type="Node2D" parent="."]
 
 [node name="Level" type="Node2D" parent="."]
+visible = false
 script = ExtResource("3_jc1qa")
 
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource("6_4l2vd")
+
+[node name="TextureRect" type="TextureRect" parent="UI"]
+self_modulate = Color(1, 1, 1, 0.705882)
+offset_right = 640.0
+offset_bottom = 360.0
+scale = Vector2(2, 2)
+texture = ExtResource("17_w6kk5")
 
 [node name="Beats" type="Control" parent="UI"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+theme = ExtResource("12_qoqr4")
 
-[node name="Results" type="VBoxContainer" parent="UI"]
-offset_left = 30.0
-offset_top = 233.0
-offset_right = 207.0
-offset_bottom = 385.0
+[node name="Report" type="TextureRect" parent="UI"]
+visible = false
+offset_left = 24.0
+offset_top = 216.0
+offset_right = 64.0
+offset_bottom = 256.0
+scale = Vector2(2, 2)
+theme = ExtResource("12_qoqr4")
+texture = ExtResource("13_amjwk")
 
-[node name="Hits" type="Label" parent="UI/Results"]
+[node name="Results" type="VBoxContainer" parent="UI/Report"]
+offset_left = 10.5
+offset_top = 13.5
+offset_right = 187.5
+offset_bottom = 195.5
+scale = Vector2(0.5, 0.5)
+theme = ExtResource("12_qoqr4")
+
+[node name="Hits" type="Label" parent="UI/Report/Results"]
 layout_mode = 2
+theme = ExtResource("12_qoqr4")
+theme_override_colors/font_color = Color(0.403922, 0.223529, 0.192157, 1)
+theme_override_colors/font_outline_color = Color(0.521569, 0.372549, 0.223529, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 25
+
+[node name="Brilliants" type="Label" parent="UI/Report/Results"]
+layout_mode = 2
+theme = ExtResource("12_qoqr4")
+theme_override_colors/font_color = Color(0.403922, 0.223529, 0.192157, 1)
+theme_override_colors/font_outline_color = Color(0.521569, 0.372549, 0.223529, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 25
+
+[node name="Blank" type="Label" parent="UI/Report/Results"]
+layout_mode = 2
+theme = ExtResource("12_qoqr4")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
 
-[node name="Brilliants" type="Label" parent="UI/Results"]
+[node name="Fizzles" type="Label" parent="UI/Report/Results"]
 layout_mode = 2
+theme = ExtResource("12_qoqr4")
+theme_override_colors/font_color = Color(0.403922, 0.223529, 0.192157, 1)
+theme_override_colors/font_outline_color = Color(0.521569, 0.372549, 0.223529, 1)
+theme_override_constants/shadow_outline_size = 10
+theme_override_font_sizes/font_size = 25
+
+[node name="Blank2" type="Label" parent="UI/Report/Results"]
+layout_mode = 2
+theme = ExtResource("12_qoqr4")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
 
-[node name="Blank" type="Label" parent="UI/Results"]
+[node name="Blank3" type="Label" parent="UI/Report/Results"]
 layout_mode = 2
+theme = ExtResource("12_qoqr4")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
 
-[node name="Fizzles" type="Label" parent="UI/Results"]
+[node name="Followers" type="Label" parent="UI/Report/Results"]
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 25
-
-[node name="Blank2" type="Label" parent="UI/Results"]
-layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 25
-
-[node name="Followers" type="Label" parent="UI/Results"]
-layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme = ExtResource("12_qoqr4")
+theme_override_colors/font_color = Color(0.403922, 0.223529, 0.192157, 1)
+theme_override_colors/font_outline_color = Color(0.521569, 0.372549, 0.223529, 1)
+theme_override_constants/outline_size = 10
 theme_override_font_sizes/font_size = 25
 
 [node name="Modifiers" type="VBoxContainer" parent="UI"]
@@ -113,127 +163,291 @@ offset_left = 1086.0
 offset_top = 549.0
 offset_right = 1263.0
 offset_bottom = 701.0
+theme = ExtResource("12_qoqr4")
 alignment = 2
 
 [node name="Speed" type="Label" parent="UI/Modifiers"]
 layout_mode = 2
+theme = ExtResource("12_qoqr4")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 25
 horizontal_alignment = 2
 
 [node name="FollowerGain" type="Label" parent="UI/Modifiers"]
 layout_mode = 2
+theme = ExtResource("12_qoqr4")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 25
 horizontal_alignment = 2
 
 [node name="Progress" type="Control" parent="UI"]
 layout_mode = 3
-anchors_preset = 0
-offset_left = 2.0
-offset_right = 402.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_right = 200.0
 offset_bottom = 40.0
+grow_horizontal = 2
+theme = ExtResource("12_qoqr4")
 
 [node name="Days" type="Label" parent="UI/Progress"]
-layout_mode = 2
-offset_left = 564.0
-offset_top = 11.0
-offset_right = 704.0
-offset_bottom = 46.0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -70.0
+offset_top = 12.0
+offset_right = 70.0
+offset_bottom = 47.0
+grow_horizontal = 2
+theme = ExtResource("12_qoqr4")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 25
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 28
 text = "Day: 5 of 10"
 horizontal_alignment = 1
 
 [node name="Follower" type="Label" parent="UI/Progress"]
-layout_mode = 2
-offset_left = 567.0
-offset_top = 42.0
-offset_right = 709.0
-offset_bottom = 77.0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -71.0
+offset_top = 43.0
+offset_right = 71.0
+offset_bottom = 78.0
+grow_horizontal = 2
+theme = ExtResource("12_qoqr4")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 25
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 28
 text = "Followers: 5"
 horizontal_alignment = 1
 
-[node name="Downtime" type="Panel" parent="UI"]
+[node name="Downtime" type="TextureRect" parent="UI"]
 visible = false
 self_modulate = Color(0, 0, 0, 1)
-offset_left = 397.0
-offset_top = 151.0
-offset_right = 852.0
-offset_bottom = 680.0
+texture_repeat = 2
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -227.5
+offset_top = -264.5
+offset_right = 227.5
+offset_bottom = 264.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_qoqr4")
 
 [node name="Header" type="Label" parent="UI/Downtime"]
-layout_mode = 2
-offset_left = 90.0
-offset_top = 23.0
-offset_right = 361.0
-offset_bottom = 58.0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -143.0
+offset_top = 42.5
+offset_right = 143.0
+offset_bottom = 85.5
+grow_horizontal = 2
+theme = ExtResource("12_qoqr4")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 25
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 40
 text = "Planning phase"
 horizontal_alignment = 1
 uppercase = true
 
 [node name="Text" type="Label" parent="UI/Downtime"]
-layout_mode = 2
-offset_left = 38.0
-offset_top = 92.0
-offset_right = 415.0
-offset_bottom = 127.0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -188.5
+offset_top = 87.5
+offset_right = 188.5
+offset_bottom = 122.5
+grow_horizontal = 2
+theme = ExtResource("12_qoqr4")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
 theme_override_font_sizes/font_size = 25
 text = "What are you doing tomorrow?"
 horizontal_alignment = 1
 
 [node name="Options" type="VBoxContainer" parent="UI/Downtime"]
-layout_mode = 0
-offset_left = 97.0
-offset_top = 165.0
-offset_right = 361.0
-offset_bottom = 479.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -149.5
+offset_top = -385.0
+offset_right = 150.5
+offset_bottom = -21.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("12_qoqr4")
 
-[node name="Normal" type="Button" parent="UI/Downtime/Options"]
-self_modulate = Color(0.254902, 0.815686, 0.741176, 1)
+[node name="Normal" type="TextureButton" parent="UI/Downtime/Options"]
 layout_mode = 2
+theme = ExtResource("12_qoqr4")
+texture_normal = ExtResource("12_dwitw")
+texture_hover = ExtResource("13_c1846")
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="UI/Downtime/Options/Normal"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -10.0
+offset_right = 20.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 20
 text = "Follow the creed
 (No changes)"
+horizontal_alignment = 1
 
-[node name="Prowess" type="Button" parent="UI/Downtime/Options"]
-self_modulate = Color(0.254902, 0.815686, 0.741176, 1)
+[node name="Prowess" type="TextureButton" parent="UI/Downtime/Options"]
 layout_mode = 2
+theme = ExtResource("12_qoqr4")
+texture_normal = ExtResource("12_dwitw")
+texture_hover = ExtResource("13_c1846")
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="UI/Downtime/Options/Prowess"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -10.0
+offset_right = 20.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 20
 text = "Show off your prowess
 (+10% speed, +10% follower gain)"
+horizontal_alignment = 1
 
-[node name="Focus" type="Button" parent="UI/Downtime/Options"]
-self_modulate = Color(0.254902, 0.815686, 0.741176, 1)
+[node name="Focus" type="TextureButton" parent="UI/Downtime/Options"]
 layout_mode = 2
+theme = ExtResource("12_qoqr4")
+texture_normal = ExtResource("12_dwitw")
+texture_hover = ExtResource("13_c1846")
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="UI/Downtime/Options/Focus"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -10.0
+offset_right = 20.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 20
 text = "Sharpen your focus
 (-10% speed, -10% follower gain)"
+horizontal_alignment = 1
 
-[node name="Teach" type="Button" parent="UI/Downtime/Options"]
-self_modulate = Color(0.254902, 0.815686, 0.741176, 1)
+[node name="Teach" type="TextureButton" parent="UI/Downtime/Options"]
 layout_mode = 2
+theme = ExtResource("12_qoqr4")
+texture_normal = ExtResource("12_dwitw")
+texture_hover = ExtResource("13_c1846")
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="UI/Downtime/Options/Teach"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -10.0
+offset_right = 20.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 20
 text = "Teach
 (Skip ritual, gain 1.5x followers)"
+horizontal_alignment = 1
 
 [node name="Blank" type="Control" parent="UI/Downtime/Options"]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
+theme = ExtResource("12_qoqr4")
 
-[node name="Summon" type="Button" parent="UI/Downtime/Options"]
-self_modulate = Color(1, 0.12549, 0.0352941, 1)
+[node name="Summon" type="TextureButton" parent="UI/Downtime/Options"]
 layout_mode = 2
+theme = ExtResource("12_qoqr4")
+texture_normal = ExtResource("12_dwitw")
+texture_hover = ExtResource("14_yyoud")
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="UI/Downtime/Options/Summon"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -10.0
+offset_right = 20.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 20
 text = "It's time
 (SUMMON)"
+horizontal_alignment = 1
 
-[node name="SkipDay" type="Panel" parent="UI"]
+[node name="SkipDay" type="TextureRect" parent="UI"]
 visible = false
-offset_left = 372.0
-offset_top = 308.0
-offset_right = 940.0
-offset_bottom = 512.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -284.0
+offset_top = -102.0
+offset_right = 284.0
+offset_bottom = 102.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_qoqr4")
 
 [node name="Text2" type="Label" parent="UI/SkipDay"]
 layout_mode = 2
@@ -241,78 +455,392 @@ offset_left = 64.0
 offset_top = 24.0
 offset_right = 494.0
 offset_bottom = 97.0
+theme = ExtResource("12_qoqr4")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
 theme_override_font_sizes/font_size = 25
 text = "You spent your day teaching others
 gaining X new followers."
 horizontal_alignment = 1
 
-[node name="Continue" type="Button" parent="UI/SkipDay"]
+[node name="Continue" type="TextureButton" parent="UI/SkipDay"]
 layout_mode = 0
 offset_left = 92.0
 offset_top = 128.0
 offset_right = 463.0
 offset_bottom = 190.0
-text = "Continue"
+theme = ExtResource("12_qoqr4")
+texture_normal = ExtResource("12_dwitw")
+texture_pressed = ExtResource("13_c1846")
+texture_focused = ExtResource("13_c1846")
+stretch_mode = 6
 
-[node name="Summoning" type="Panel" parent="UI"]
+[node name="Text3" type="Label" parent="UI/SkipDay/Continue"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -215.0
+offset_top = -36.5
+offset_right = 215.0
+offset_bottom = 36.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_qoqr4")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Continue"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Summoning" type="TextureRect" parent="UI"]
 visible = false
-offset_left = 311.0
-offset_top = 83.0
-offset_right = 968.0
-offset_bottom = 711.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -328.5
+offset_top = -358.0
+offset_right = 328.5
+offset_bottom = 270.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_qoqr4")
+texture = ExtResource("17_1m22o")
+
+[node name="Image" type="TextureRect" parent="UI/Summoning"]
+layout_mode = 0
+offset_left = 101.5
+offset_top = 17.0
+offset_right = 318.5
+offset_bottom = 189.0
+scale = Vector2(2, 2)
+texture = ExtResource("18_dy0fj")
 
 [node name="Text" type="Label" parent="UI/Summoning"]
 layout_mode = 2
-offset_left = 8.0
+offset_left = 19.0
 offset_top = 367.0
-offset_right = 650.0
+offset_right = 645.0
 offset_bottom = 440.0
+theme = ExtResource("12_qoqr4")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 25
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 26
 text = "Together with your followers, you summon the mighty FISH."
 horizontal_alignment = 1
 autowrap_mode = 2
 
 [node name="Outcome" type="Label" parent="UI/Summoning"]
 layout_mode = 2
-offset_left = 8.0
+offset_left = 16.0
 offset_top = 448.0
-offset_right = 650.0
+offset_right = 646.0
 offset_bottom = 521.0
+theme = ExtResource("12_qoqr4")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 25
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 26
 text = "Regardless of your valiant efforts, the TITAN owerpowered your summon. You lose."
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="Continue" type="Button" parent="UI/Summoning"]
+[node name="Continue" type="TextureButton" parent="UI/Summoning"]
 layout_mode = 0
 offset_left = 146.0
 offset_top = 540.0
 offset_right = 517.0
 offset_bottom = 602.0
-text = "Replay"
+theme = ExtResource("12_qoqr4")
+texture_normal = ExtResource("12_dwitw")
+texture_hover = ExtResource("14_yyoud")
+stretch_mode = 6
 
-[node name="TextureRect" type="TextureRect" parent="UI/Summoning"]
-layout_mode = 0
-offset_left = 256.0
-offset_top = 166.0
-offset_right = 384.0
-offset_bottom = 294.0
-texture = ExtResource("6_w7jqp")
+[node name="Label" type="Label" parent="UI/Summoning/Continue"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -215.0
+offset_top = -36.5
+offset_right = 215.0
+offset_bottom = 36.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_qoqr4")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Play again"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Start" type="Panel" parent="UI"]
+[node name="Start" type="TextureRect" parent="UI"]
 offset_right = 1275.0
 offset_bottom = 722.0
+theme = ExtResource("12_qoqr4")
 
-[node name="Button" type="Button" parent="UI/Start"]
+[node name="Lore3" type="Label" parent="UI/Start"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -606.5
+offset_top = -164.0
+offset_right = 35.5
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_qoqr4")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/font_size = 36
+text = "LORE"
+vertical_alignment = 2
+autowrap_mode = 2
+
+[node name="Lore" type="Label" parent="UI/Start"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -603.5
+offset_top = -93.0
+offset_right = 38.5
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_qoqr4")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/font_size = 28
+text = "\"THE TITAN is emerging from the volcano. Once out, it will ravage the lands and nothing but cinders and ash will remain... "
+autowrap_mode = 2
+
+[node name="Lore2" type="Label" parent="UI/Start"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -605.5
+offset_top = 10.0
+offset_right = 36.5
+offset_bottom = 229.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_qoqr4")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/font_size = 28
+text = "Please, gather as many followers as you possibly can! With your skills it should be possible. Together, you might be able to summon THE MIGHTY LEVIATHAN.
+
+Good luck.\""
+autowrap_mode = 2
+
+[node name="Guide" type="Label" parent="UI/Start"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 47.5
+offset_top = -150.0
+offset_right = 689.5
+offset_bottom = -97.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_qoqr4")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/font_size = 36
+text = "HOW TO PLAY"
+horizontal_alignment = 1
+vertical_alignment = 2
+autowrap_mode = 2
+
+[node name="Guide2" type="Label" parent="UI/Start"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 47.5
+offset_top = -95.0
+offset_right = 689.5
+offset_bottom = -61.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_qoqr4")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/font_size = 32
+text = "Time your presses to hit INVOCATIONS"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Guide5" type="Label" parent="UI/Start"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 138.5
+offset_top = 84.0
+offset_right = 607.5
+offset_bottom = 229.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_qoqr4")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/font_size = 26
+text = "The better you do the more you GAIN FOLLOWERS. On TOP CENTER you see your followers as well the DAYS YOU HAVE until the unevitable showdown."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Guide6" type="Label" parent="UI/Start"]
+self_modulate = Color(0.592157, 0.929412, 0.792157, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 172.5
+offset_top = 219.0
+offset_right = 457.5
+offset_bottom = 302.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_qoqr4")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/font_size = 32
+text = "[M] to toggle MUSIC
+[N] to toggle SOUND"
+autowrap_mode = 2
+
+[node name="Guide3" type="Label" parent="UI/Start"]
+self_modulate = Color(0.592157, 0.929412, 0.792157, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 140.5
+offset_top = -35.0
+offset_right = 500.5
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_qoqr4")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/font_size = 26
+text = "Use [ARROWS] for BRIGHT ONES:"
+horizontal_alignment = 2
+autowrap_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/Start/Guide3"]
 layout_mode = 0
-offset_left = 499.0
-offset_top = 598.0
-offset_right = 766.0
-offset_bottom = 654.0
+offset_left = 371.0
+offset_top = -26.0
+offset_right = 411.0
+offset_bottom = 14.0
+scale = Vector2(2, 2)
+texture = ExtResource("15_emkyl")
+
+[node name="Guide4" type="Label" parent="UI/Start"]
+self_modulate = Color(0.592157, 0.929412, 0.792157, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 104.5
+offset_top = 15.0
+offset_right = 451.5
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_qoqr4")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/font_size = 26
+text = "Use [WASD] for DARK ONES:"
+horizontal_alignment = 2
+autowrap_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="UI/Start/Guide4"]
+layout_mode = 0
+offset_left = 359.0
+offset_top = -25.0
+offset_right = 399.0
+offset_bottom = 15.0
+scale = Vector2(2, 2)
+texture = ExtResource("16_cc05x")
+
+[node name="Button" type="TextureButton" parent="UI/Start"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -133.5
+offset_top = -119.0
+offset_right = 133.5
+offset_bottom = -55.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("12_qoqr4")
+texture_normal = ExtResource("14_yyoud")
+stretch_mode = 6
+
+[node name="Text4" type="Label" parent="UI/Start/Button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -215.0
+offset_top = -36.5
+offset_right = 215.0
+offset_bottom = 36.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_qoqr4")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 25
 text = "Begin summoning"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Paused" type="Label" parent="UI"]
 visible = false
@@ -327,8 +855,11 @@ offset_right = 321.0
 offset_bottom = 36.5
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("12_qoqr4")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 25
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/font_size = 32
 text = "PAUSED"
 horizontal_alignment = 1
 vertical_alignment = 1

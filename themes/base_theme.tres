@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cksmghfojjnp3"]
+
+[ext_resource type="FontFile" uid="uid://dbmnwpu24s2u6" path="res://fonts/Hexenkötel.otf" id="1_myfkv"]
+
+[resource]
+default_font = ExtResource("1_myfkv")
+default_font_size = 18

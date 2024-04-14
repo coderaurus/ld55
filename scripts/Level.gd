@@ -98,8 +98,7 @@ func _generate_invocation_beats(circle: InvocationCircle, data:InvocationCircleD
 		var selected_invocation_index = wrapi(randi_range(0, 100) + randi_range(0, 100), 0, 3)
 		var selected_invocation = invocation_inputs[selected_invocation_index]
 		
-		# +2.5% per level to pick secondary invocation
-		if randf() < clampf(0.025 * (parent.current_level+1), 0, 1.0):
+		if data.has_wasd and randf() <= data.wasd_chance:
 			selected_invocation = invocation_inputs_secondary[selected_invocation_index]
 		
 		var beat_scene:RitualBeat = parent.ritual_beat_scene.instantiate()

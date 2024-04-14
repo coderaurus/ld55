@@ -22,10 +22,8 @@ class_name Main
 
 var level_data: Array[Resource] = []
 
-
 var speed_modifier = 1
 var score_modifier = 1
-
 
 var current_level = 0
 var invocation_beats
@@ -121,14 +119,10 @@ func on_invocation_circle_complete():
 	level.circle.circle_invoked.emit()
 	
 	var scores = (circle_hits * hit_score * score_modifier) + (circle_brilliants * brilliant_score * score_modifier)
-	print("Score 1/3: %s" % scores)
 	scores -= roundi(circle_misses * miss_score) # spammed misses
-	print("Score 2/3: %s" % scores)
 	scores -= roundi(circle_fizzles * fizzle_score) # fizzles
-	print("Score 3/3: %s" % scores)
 	
 	var new_followers = scores / 100.0
-	print("New followers: %s" % new_followers)
 	
 	# give some slack for the first level
 	if current_level == 0 and new_followers > 0.2:
@@ -136,10 +130,11 @@ func on_invocation_circle_complete():
 	new_followers = roundi(new_followers)
 	
 	followers += new_followers
-	print("Path complete")
+	#print("Path complete")
 	$Trace.stop()
 	followersGroup.add_follower(new_followers)
 	if level.is_level_complete():
+		summoner.lower_hands()
 		MusicManager.fade_out(false, true)
 		current_level += 1
 		print("Level complete with %s new followers" % new_followers)
@@ -208,9 +203,15 @@ func next_level(modifier = "normal"):
 	$UI.hide_down_time()
 		
 	if summoning:
+		summoner.lower_hands()
 		print("Summoing with %s followers" % followers)
+		
 		_determine_outcome()
 		group_up()
+		
+		level.circle.hide()
+		$Trace.hide()
+		
 		await get_tree().create_timer(2.5).timeout
 		$UI.show_summoning(titan_defeated)
 	elif not skip_day:
@@ -228,6 +229,7 @@ func reset():
 	setup()
 
 func start_level():
+	$UI.hide_report()
 	MusicManager.fade_in(true)
 	level.activate()
 
@@ -254,7 +256,7 @@ func _generate_level_data():
 	var data: Array[Resource] = [
 		LevelData.new(
 			[
-				InvocationCircleData.new(),
+				InvocationCircleData.new(5, 125, true, 1.0),
 				#InvocationCircleData.new(4, 200),
 			]
 		),
