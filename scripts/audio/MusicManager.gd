@@ -1,67 +1,101 @@
 extends AudioStreamPlayer
 
+const MUTE_DB = -80
+const MAX_DB = -10
 
 @export var ost : Dictionary = {}
-var fade_step = 5
-var stored_db = 0
 
-const MUTE_DB = -80
-const MAX_DB = -5
+var additional_track: AudioStreamPlayer
+
+var stored_db = 0
 
 
 func _ready():
-	volume_db = -20
+	var initial_db = -10
+	volume_db = initial_db
+	additional_track = AudioStreamPlayer.new()
+	add_child(additional_track)
+	
+	additional_track.volume_db = initial_db
 
-func song_playing(song):
+func song_playing(song, use_second_track=false):
+	var _stream = stream
+	if use_second_track:
+		_stream = additional_track.stream
+	
 	for key in ost.keys():
-		if stream == ost.get(key) and key == song:
+		if _stream == ost.get(key) and key == song:
 			return true
 	return false
 	
-func toggle() -> bool:
+func toggle(only_one_track = false, track = 0) -> bool:
 	if volume_db == MUTE_DB:
-		unmute_music()
+		unmute_music(only_one_track, track)
 		return true
 	else:
-		mute_music()
+		mute_music(only_one_track, track)
 		return false
 
-func mute_music():
+func mute_music(only_one_track = false, track = 0):
 	stored_db = volume_db
-	volume_db = MUTE_DB
+	if not only_one_track or only_one_track and track == 0:
+		volume_db = MUTE_DB
+	elif not only_one_track or only_one_track and track == 1:
+		additional_track.volume_db = MUTE_DB
 	
-func unmute_music():
-	volume_db = stored_db
+func unmute_music(only_one_track = false, track = 0):
+	if not only_one_track or only_one_track and track == 0:
+		volume_db = stored_db
+	elif not only_one_track or only_one_track and track == 1:
+		additional_track.volume_db = stored_db
 	return volume_db
 #	print("Unmute music to %s" % stored_db)
 
-func fade():
-	while volume_db > MUTE_DB:
-		volume_db -= fade_step
-		await get_tree().create_timer(0.1).timeout
-	stream_paused = true
-	stream = null
-	stop()
+func fade_out(stop_it = false, use_second_track = false):
+	stored_db = volume_db
+	var tween = get_tree().create_tween()
+	
+	if use_second_track:
+		tween.tween_property(additional_track, "volume_db", MUTE_DB, 0.5)
+		if stop_it:
+			additional_track.stream_paused = true
+			additional_track.stream = null
+			additional_track.stop()
+	else:
+		tween.tween_property(self, "volume_db", MUTE_DB, 0.5)
+		if stop_it:
+			stream_paused = true
+			stream = null
+			stop()
 
-func play_song(song = "", fade = false):
-	var last_song = stream
-	if ost.has(song) and stream != ost.get(song):
-		stop()
-		if fade and stream != null:
-			while volume_db > MUTE_DB:
-				volume_db -= fade_step
-				await get_tree().create_timer(0.05).timeout
-		stop()
-		stream = ost.get(song)
-		if fade:
-			while volume_db < stored_db:
-				volume_db = clamp(volume_db + fade_step, MUTE_DB, stored_db)
-				await get_tree().create_timer(0.05).timeout
-		play()
+func fade_in(use_second_track = false):
+	var tween = get_tree().create_tween()
+	if use_second_track:
+		tween.tween_property(additional_track, "volume_db", stored_db, 0.5)
+	else:
+		tween.tween_property(self, "volume_db", stored_db, 0.5)
+
+func play_song(song = "", use_second_track = false):
+	var _stream = stream
+	if use_second_track:
+		_stream = additional_track.stream
+	
+	var last_song = _stream
+	if ost.has(song) and _stream != ost.get(song):
+		if use_second_track:
+			additional_track.stream = ost.get(song)
+			print("Playing %s in second track at %s" % [song, additional_track.volume_db])
+			additional_track.play()
+		else:
+			stream = ost.get(song)
+			print("Playing %s in first track at %s" % [song, volume_db])
+			play()
 		emit_signal("finished", last_song)
 
 
 func _on_range_change(value):
 	volume_db = value
 	stored_db = value
+	additional_track.volume_db = value
+	additional_track.stored_db = value
 

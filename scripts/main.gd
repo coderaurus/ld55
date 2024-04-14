@@ -59,10 +59,14 @@ func _ready():
 	
 	level_data = _generate_level_data()
 	setup(false)
+	MusicManager.play_song("track_one")
+	MusicManager.mute_music(true, 1)
+	MusicManager.play_song("track_two", true)
 
 func setup(auto_start = true):
 	$UI.reset()
 	followers = 0
+	
 	for c in followersGroup.get_children():
 		c.queue_free()
 	current_level = 0
@@ -95,6 +99,7 @@ func on_invoke(invocation):
 			if accuracy >= 0.75:
 				circle_brilliants += 1
 			beat_hit.emit(accuracy, level.circle.global_position + Vector2.LEFT * 32)
+			SoundManager.sound("invocation", randf_range(0.8, 1.2))
 			
 		if not next.invoked and distance <= next.invocation_grace_range and not next.requires(invocation):
 			add_splash(mark.global_position)
@@ -134,6 +139,7 @@ func on_invocation_circle_complete():
 	
 	followersGroup.add_follower(new_followers)
 	if level.is_level_complete():
+		MusicManager.fade_out(false, true)
 		current_level += 1
 		print("Level complete with %s new followers" % new_followers)
 		days_left -= 1
@@ -144,6 +150,7 @@ func on_invocation_circle_complete():
 		#if current_level < level_data.size():
 			#level.load_data(level_data[current_level])
 	else:
+		await get_tree().create_timer(0.2).timeout
 		level.load_next_circle()
 		if not level.cursor.moving:
 			level.cursor.moving = true
@@ -162,6 +169,10 @@ func on_level_ready(lvl):
 	level.load_data(level_data[current_level])
 
 func _load_next_level(auto_start = true):
+	circle_brilliants = 0
+	circle_hits = 0
+	circle_fizzles = 0
+	
 	level.load_data(level_data[current_level])
 	if auto_start:
 		$UI.start_count_down()
@@ -170,6 +181,8 @@ func next_level(modifier = "normal"):
 	var skip_day = false
 	var summoning = false
 	var new_followers = 0
+	
+	
 	match modifier:
 		"prowess":
 			score_modifier += 0.1
@@ -210,6 +223,7 @@ func reset():
 	setup()
 
 func start_level():
+	MusicManager.fade_in(true)
 	level.activate()
 
 func group_up():

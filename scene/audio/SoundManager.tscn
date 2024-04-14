@@ -1,7 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://d2fvqvnhhvb1s"]
+[gd_scene load_steps=3 format=3 uid="uid://d2fvqvnhhvb1s"]
 
 [ext_resource type="Script" path="res://scripts/audio/SoundManager.gd" id="1_il2ke"]
+[ext_resource type="AudioStream" uid="uid://drvxjmsre20d2" path="res://sound/invocation.wav" id="1_y8c5k"]
 
 [node name="SoundManager" type="AudioStreamPlayer"]
-volume_db = 5.0
 script = ExtResource("1_il2ke")
+sounds = {
+"invocation": ExtResource("1_y8c5k")
+}

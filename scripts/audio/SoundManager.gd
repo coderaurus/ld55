@@ -8,7 +8,7 @@ const MAX_DB = -5
 signal volume_changed
 
 func _ready():
-	volume_db = -20
+	volume_db = -10
 
 func toggle() -> bool:
 	if volume_db == MUTE_DB:
@@ -28,7 +28,8 @@ func unmute_sounds():
 #	print("Unmute sound to %s" % stored_db)
 	sound("click")
 
-func sound(sfx_name = "", vol_mod = -999):
+func sound(sfx_name = "", _pitch = 1, vol_mod = -999):
+	pitch_scale = _pitch
 	if sounds.has(sfx_name):
 		stream = sounds.get(sfx_name)
 		if vol_mod == -999:
@@ -41,6 +42,7 @@ func play_sound(from_position=0.0, volume = MUTE_DB):
 	var asp = AudioStreamPlayer.new()
 	add_child(asp)
 	asp.mix_target = mix_target
+	asp.pitch_scale = pitch_scale
 	if volume > MUTE_DB:
 		asp.volume_db = volume
 	else:
