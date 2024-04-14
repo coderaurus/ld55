@@ -59,6 +59,7 @@ func _ready():
 	setup(false)
 
 func setup(auto_start = true):
+	$UI.reset()
 	followers = 0
 	current_level = 0
 	days_left = level_data.size()

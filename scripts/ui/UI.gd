@@ -17,6 +17,11 @@ func _ready():
 	
 	$Start/Button.grab_focus()
 
+func _process(delta):
+	$Progress/Follower.text = "Followers: %s" % parent.followers
+	$Progress/Days.text = "%s days left" % parent.days_left
+
+
 func on_beat_hit(accuracy, pos):
 	print("Hit at %s" % pos)
 	#print("Accuracy %s" % accuracy)
@@ -135,3 +140,9 @@ func start_count_down():
 func _on_start_pressed():
 	$Start.hide()
 	start_count_down()
+
+func reset():
+	$Results/Hits.text = ""
+	$Results/Brilliants.text = ""
+	$Results/Fizzles.text = ""
+	$Results/Followers.text = ""
