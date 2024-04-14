@@ -12,7 +12,7 @@ func stop():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if points.size() == 360 or stopped:
+	if points.size() == 360 or points.size() > 0 and stopped:
 		remove_point(0)
 	
 	if target == null or (target is InvocationCursor and not (target as InvocationCursor).moving):
