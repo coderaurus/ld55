@@ -17,8 +17,8 @@ class_name Main
 @export var miss_score = 0.5
 
 @export_category("Titan")
-@export var base_power_per_level = 30
-@export var multiplier_per_level = 1.1
+@export var base_power_per_level = 35
+@export var multiplier_per_level = 1.05
 
 var level_data: Array[Resource] = []
 
@@ -77,7 +77,7 @@ func setup(auto_start = true):
 		var power = base_power_per_level * power_multiplier
 		power_multiplier *= multiplier_per_level
 		titan_total_power += power
-	print("Titan power at (multiplier %s): %s" % [power_multiplier, titan_total_power])
+	#print("Titan power at (multiplier %s): %s" % [power_multiplier, titan_total_power])
 	
 	_load_next_level(auto_start)
 
@@ -127,8 +127,8 @@ func on_invocation_circle_complete():
 	scores -= roundi(circle_fizzles * fizzle_score) # fizzles
 	
 	var new_followers = scores / 100.0
-	print("circle hits: %s | brilliant hits: %s | misses: %s | score total: %s" %\
-	[circle_hits, circle_brilliants, circle_misses, scores])
+	#print("circle hits: %s | brilliant hits: %s | misses: %s | score total: %s" %\
+	#[circle_hits, circle_brilliants, circle_misses, scores])
 	# give some slack for the first level
 	if current_level == 0 and new_followers > 0.2:
 		new_followers = 1.0
@@ -144,7 +144,7 @@ func on_invocation_circle_complete():
 		summoner.lower_hands()
 		MusicManager.fade_out(false, true)
 		current_level += 1
-		print("Level complete with %s new followers" % new_followers)
+		#print("Level complete with %s new followers" % new_followers)
 		days_left -= 1
 		_group_scatter()
 		await get_tree().create_timer(0.5).timeout
@@ -168,7 +168,7 @@ func on_level_ready(lvl):
 	level.load_data(level_data[current_level])
 
 func _load_next_level(auto_start = true):
-	print("Reseeting hits on level load")
+	#print("Reseeting hits on level load")
 	circle_brilliants = 0
 	circle_hits = 0
 	circle_fizzles = 0
@@ -211,7 +211,6 @@ func next_level(modifier = "normal"):
 		
 	if summoning:
 		summoner.lower_hands()
-		print("Summoing with %s followers" % followers)
 		
 		_determine_outcome()
 		group_up()
@@ -230,7 +229,7 @@ func next_level(modifier = "normal"):
 func _determine_outcome():
 	summoning_power = followers * power_per_follower
 	titan_defeated = summoning_power >= titan_total_power
-	print("Summoning: %s Titan: %s" % [summoning_power, titan_total_power])
+	#print("Summoning: %s Titan: %s" % [summoning_power, titan_total_power])
 
 func reset():
 	setup()
@@ -267,72 +266,72 @@ func _generate_level_data():
 				InvocationCircleData.new(4, 110),
 			]
 		),
-		#LevelData.new( # LV 2
-			#[
-				#InvocationCircleData.new(4, 110),
-				#InvocationCircleData.new(5, 115),
-				#InvocationCircleData.new(5, 115),
-			#]
-		#),
-		#LevelData.new( # LV 3
-			#[
-				#InvocationCircleData.new(4, 120),
-				#InvocationCircleData.new(5, 120),
-				#InvocationCircleData.new(5, 120),
-			#]
-		#),
-		#LevelData.new( # LV 4
-			#[
-				#InvocationCircleData.new(4, 120),
-				#InvocationCircleData.new(6, 110),
-				#InvocationCircleData.new(4, 120),
-			#]
-		#),
-		#LevelData.new( # LV 5
-			#[
-				#InvocationCircleData.new(4, 125, true, 1.0),
-				#InvocationCircleData.new(3, 125, true, 1.0),
-				#InvocationCircleData.new(4, 125, true, 1.0),
-			#]
-		#),
-		#LevelData.new( # LV 6
-			#[
-				#InvocationCircleData.new(3, 150, true, 1.0),
-				#InvocationCircleData.new(5, 150, true, 0.25),
-				#InvocationCircleData.new(6, 150, true, 0.25),
-			#]
-		#),
-		#LevelData.new( # LV 7
-			#[
-				#InvocationCircleData.new(4, 155),
-				#InvocationCircleData.new(6, 155, true, 1.0),
-				#InvocationCircleData.new(4, 155, true, 1.0),
-				#InvocationCircleData.new(6, 155),
-			#]
-		#),
-		#LevelData.new( # LV 8
-			#[
-				#InvocationCircleData.new(5, 165, true, 0.30),
-				#InvocationCircleData.new(5, 165, true, 0.45),
-				#InvocationCircleData.new(6, 165, true, 0.30),
-				#InvocationCircleData.new(6, 165, true, 0.45),
-			#]
-		#),
-		#LevelData.new( # LV 9
-			#[
-				#InvocationCircleData.new(6, 175, true, 0.33),
-				#InvocationCircleData.new(6, 175, true, 0.33),
-				#InvocationCircleData.new(6, 175, true, 0.33),
-				#InvocationCircleData.new(7, 175, true, 0.33),
-			#]
-		#),
-		#LevelData.new( # LV 10
-			#[
-				#InvocationCircleData.new(10, 180, true, 0.5),
-				#InvocationCircleData.new(8, 185, true, 0.5),
-				#InvocationCircleData.new(7, 190, true, 0.5),
-				#InvocationCircleData.new(8, 200, true, 0.5),
-			#]
-		#),
+		LevelData.new( # LV 2
+			[
+				InvocationCircleData.new(4, 110),
+				InvocationCircleData.new(5, 115),
+				InvocationCircleData.new(5, 115),
+			]
+		),
+		LevelData.new( # LV 3
+			[
+				InvocationCircleData.new(4, 120),
+				InvocationCircleData.new(5, 120),
+				InvocationCircleData.new(5, 120),
+			]
+		),
+		LevelData.new( # LV 4
+			[
+				InvocationCircleData.new(4, 120),
+				InvocationCircleData.new(6, 110),
+				InvocationCircleData.new(4, 120),
+			]
+		),
+		LevelData.new( # LV 5
+			[
+				InvocationCircleData.new(4, 125, true, 1.0),
+				InvocationCircleData.new(3, 125, true, 1.0),
+				InvocationCircleData.new(4, 125, true, 1.0),
+			]
+		),
+		LevelData.new( # LV 6
+			[
+				InvocationCircleData.new(3, 150, true, 1.0),
+				InvocationCircleData.new(5, 150, true, 0.25),
+				InvocationCircleData.new(6, 150, true, 0.25),
+			]
+		),
+		LevelData.new( # LV 7
+			[
+				InvocationCircleData.new(4, 155),
+				InvocationCircleData.new(6, 155, true, 1.0),
+				InvocationCircleData.new(4, 155, true, 1.0),
+				InvocationCircleData.new(6, 155),
+			]
+		),
+		LevelData.new( # LV 8
+			[
+				InvocationCircleData.new(5, 165, true, 0.30),
+				InvocationCircleData.new(5, 165, true, 0.45),
+				InvocationCircleData.new(6, 165, true, 0.30),
+				InvocationCircleData.new(6, 165, true, 0.45),
+			]
+		),
+		LevelData.new( # LV 9
+			[
+				InvocationCircleData.new(6, 175, true, 0.33),
+				InvocationCircleData.new(6, 175, true, 0.33),
+				InvocationCircleData.new(6, 175, true, 0.33),
+				InvocationCircleData.new(7, 175, true, 0.33),
+			]
+		),
+		LevelData.new( # LV 10
+			[
+				InvocationCircleData.new(10, 180, true, 0.5),
+				InvocationCircleData.new(8, 185, true, 0.5),
+				InvocationCircleData.new(7, 190, true, 0.5),
+				InvocationCircleData.new(8, 200, true, 0.5),
+			]
+		),
 	]
 	return data

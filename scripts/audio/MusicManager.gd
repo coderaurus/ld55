@@ -105,11 +105,9 @@ func play_song(song = "", use_second_track = false):
 	if ost.has(song) and _stream != ost.get(song):
 		if use_second_track:
 			additional_track.stream = ost.get(song)
-			print("Playing %s in second track at %s" % [song, additional_track.volume_db])
 			additional_track.play()
 		else:
 			stream = ost.get(song)
-			print("Playing %s in first track at %s" % [song, volume_db])
 			play()
 		emit_signal("finished", last_song)
 
